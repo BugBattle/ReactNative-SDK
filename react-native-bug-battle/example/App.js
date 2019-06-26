@@ -7,7 +7,6 @@
  */
 
 import React, {Component} from 'react';
-import RNBugBattle from 'react-native-bug-battle';
 import {Platform, StyleSheet, Text, View} from 'react-native';
 
 const instructions = Platform.select({
@@ -19,10 +18,6 @@ const instructions = Platform.select({
 
 type Props = {};
 export default class App extends Component<Props> {
-  componentDidMount() {
-    RNBugBattle.initWithToken("XXXXX", "SHAKE");
-  }
-
   render() {
     return (
       <View style={styles.container}>
