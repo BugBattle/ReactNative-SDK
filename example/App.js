@@ -9,26 +9,21 @@
  */
 
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View } from 'react-native';
+import {  Image, StyleSheet, Text, View } from 'react-native';
 import BugBattle from 'react-native-bugbattle';
 
+import bugbattleLogo from './bugbattleLogo.png';
+
 export default class App extends Component<{}> {
-  state = {
-    status: 'starting',
-    message: '--'
-  };
-  
   componentDidMount() {
-    BugBattle.initWithToken('YOUR_API_KEY', BugBattle.SHAKE);
+    console.log(BugBattle);
+    BugBattle.initWithToken('YOUR_API_KEY', BugBattle.THREE_FINGER_DOUBLE_TAB);
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>☆BugBattle example☆</Text>
-        <Text style={styles.instructions}>STATUS: {this.state.status}</Text>
-        <Text style={styles.welcome}>☆NATIVE CALLBACK MESSAGE☆</Text>
-        <Text style={styles.instructions}>{this.state.message}</Text>
+        <Image style={styles.logo} source={bugbattleLogo} resizeMode="contain" />
       </View>
     );
   }
@@ -39,16 +34,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#70B9DA',
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+  logo: {
+    width: '65%',
+    height: 100,
   },
 });
