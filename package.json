@@ -1,7 +1,7 @@
 {
   "name": "react-native-bugbattle-sdk",
   "title": "React Native Bugbattle Sdk",
-  "version": "3.0.8",
+  "version": "3.0.0",
   "description": "In-App Bug Reporting and Testing for Apps. Learn more at https://www.bugbattle.io",
   "main": "index.js",
   "files": [
