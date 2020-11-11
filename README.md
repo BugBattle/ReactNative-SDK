@@ -1,7 +1,4 @@
----
-id: reactnative-sdk
-title: Getting started
----
+# React Native BugBattle
 
 The BugBattle SDK for React Native is the easiest way to integrate BugBattle into your apps!
 
