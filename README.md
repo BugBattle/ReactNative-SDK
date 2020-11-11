@@ -16,6 +16,14 @@ Open a terminal window and navigate to the root.
 $ npm install react-native-bugbattle-sdk --save
 ```
 
+### iOS installation
+
+Navigate to your iOS project folder within the terminal and update the cocoapods by typing
+
+```
+pod install
+```
+
 **Initialize BugBattle SDK**
 
 Import the BugBattle SDK by adding the following import inside your ```index.js```.
