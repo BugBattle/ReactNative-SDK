@@ -42,30 +42,45 @@ RCT_EXPORT_MODULE()
 
 RCT_EXPORT_METHOD(initWithToken:(NSString *)token andActivationMethod:(NSString *)activationMethod)
 {
+    // Prevent double initialization, which could happen on live-reloads
     if (RNBugBattle.initialized != 0) {
         NSLog(@"Already initialized Bugbattle SDK.");
         return;
     }
     RNBugBattle.initialized = 1;
     
-    BugBattleActivationMethod activationMethodEnum = SHAKE;
-    if ([activationMethod isEqualToString: BB_NONE]) {
-        activationMethodEnum = NONE;
-    }
-    if ([activationMethod isEqualToString: BB_THREE_FINGER_DOUBLE_TAB]) {
-        activationMethodEnum = THREE_FINGER_DOUBLE_TAB;
-    }
-    
-    [BugBattle initWithToken: token andActivationMethod: activationMethodEnum];
+    // Initialize the SDK
+    [BugBattle initWithToken: token andActivationMethod: NONE];
 
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                                 selector: @selector(motionEnded:)
-                                                     name: RCTShowDevMenuNotification
-                                                object: nil];
     
-    #if !RCT_DEV
-        RCTSwapInstanceMethods([UIWindow class], @selector(motionEnded:withEvent:), @selector(handleShakeEvent:withEvent:));
-    #endif
+    if ([activationMethod isEqualToString: BB_SHAKE]) {
+        [[NSNotificationCenter defaultCenter] addObserver: self
+                                                     selector: @selector(motionEnded:)
+                                                         name: RCTShowDevMenuNotification
+                                                    object: nil];
+        
+        #if !RCT_DEV
+            RCTSwapInstanceMethods([UIWindow class], @selector(motionEnded:withEvent:), @selector(handleShakeEvent:withEvent:));
+        #endif
+    }
+    
+    if ([activationMethod isEqualToString: BB_THREE_FINGER_DOUBLE_TAB]) {
+        [self initializeGestureRecognizer];
+    }
+}
+
+- (void)initializeGestureRecognizer {
+    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget: self action: @selector(handleTapGestureActivation:)];
+    tapGestureRecognizer.numberOfTapsRequired = 2;
+    tapGestureRecognizer.numberOfTouchesRequired = 3;
+    tapGestureRecognizer.cancelsTouchesInView = false;
+    
+    [[[[UIApplication sharedApplication] delegate] window] addGestureRecognizer: tapGestureRecognizer];
+}
+
+- (void)handleTapGestureActivation: (UITapGestureRecognizer *)recognizer
+{
+    [BugBattle startBugReporting];
 }
 
 - (void)motionEnded:(NSNotification *)notification

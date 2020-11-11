@@ -10,14 +10,12 @@
 
 import React, { Component } from 'react';
 import {  Image, StyleSheet, Text, View } from 'react-native';
-import BugBattle from 'react-native-bugbattle';
 
 import bugbattleLogo from './bugbattleLogo.png';
 
 export default class App extends Component<{}> {
   componentDidMount() {
-    console.log(BugBattle);
-    BugBattle.initWithToken('YOUR_API_KEY', BugBattle.THREE_FINGER_DOUBLE_TAB);
+
   }
 
   render() {
