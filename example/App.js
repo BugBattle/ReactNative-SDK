@@ -16,7 +16,7 @@ import bugbattleLogo from './bugbattleLogo.png';
 
 export default class App extends Component<{}> {
   componentDidMount() {
-    BugBattle.initWithToken('8hWXOj5yeZxweCgnyxYTXqJ1qFlu0N4U', BugBattle.THREE_FINGER_DOUBLE_TAB);
+    BugBattle.initWithToken('YOUR_API_KEY', BugBattle.THREE_FINGER_DOUBLE_TAB);
   }
 
   render() {
