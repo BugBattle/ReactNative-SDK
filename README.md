@@ -1,4 +1,4 @@
-# ReactNativ
+# react-native-bugbattle
 
 ## Getting started
 
