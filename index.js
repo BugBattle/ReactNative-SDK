@@ -1,9 +1,9 @@
 import { NativeModules } from 'react-native';
 
-const { RNBugBattle } = NativeModules;
+const { BugbattleSdk } = NativeModules;
 
-RNBugBattle.NONE = "NONE";
-RNBugBattle.SHAKE = "SHAKE";
-RNBugBattle.THREE_FINGER_DOUBLE_TAB = "THREE_FINGER_DOUBLE_TAB";
+BugbattleSdk.NONE = "NONE";
+BugbattleSdk.SHAKE = "SHAKE";
+BugbattleSdk.THREE_FINGER_DOUBLE_TAB = "THREE_FINGER_DOUBLE_TAB";
 
-export default RNBugBattle;
+export default BugbattleSdk;

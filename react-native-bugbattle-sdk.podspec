@@ -6,12 +6,12 @@ Pod::Spec.new do |s|
   s.name         = "react-native-bugbattle-sdk"
   s.version      = package["version"]
   s.summary      = package["description"]
+  s.description  = <<-DESC
+                  react-native-bugbattle-sdk
+                   DESC
   s.homepage     = "https://www.bugbattle.io"
-  s.author       = { "BugBattle" => "hello@bugbattle.io" }
-
-  s.license      = "Commercial"
-  s.license    = { :type => "Commercial", :file => "LICENSE" }
-  s.authors      = { "BugBattle GmbH" => "hello@bugbattle.io" }
+  s.license      = "MIT"
+  s.authors      = { "BugBattle" => "hello@bugbattle.io" }
   s.platforms    = { :ios => "9.0" }
   s.source       = { :git => "https://github.com/BugBattle/ReactNative-SDK.git", :tag => "#{s.version}" }
 

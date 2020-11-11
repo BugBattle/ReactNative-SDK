@@ -9,13 +9,14 @@
  */
 
 import React, { Component } from 'react';
-import {  Image, StyleSheet, Text, View } from 'react-native';
+import {  Image, StyleSheet, View } from 'react-native';
+import BugBattle from 'react-native-bugbattle-sdk';
 
 import bugbattleLogo from './bugbattleLogo.png';
 
 export default class App extends Component<{}> {
   componentDidMount() {
-
+    BugBattle.initWithToken('8hWXOj5yeZxweCgnyxYTXqJ1qFlu0N4U', BugBattle.THREE_FINGER_DOUBLE_TAB);
   }
 
   render() {
@@ -36,6 +37,6 @@ const styles = StyleSheet.create({
   },
   logo: {
     width: '65%',
-    height: 100,
+    height: 100
   },
 });
