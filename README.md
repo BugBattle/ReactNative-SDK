@@ -9,7 +9,7 @@ Open a terminal window and navigate to the root.
 **Install via npm**
 
 ```
-$ npm install react-native-bugbattle --save
+$ npm install react-native-bugbattle-sdk --save
 ```
 
 **Initialize BugBattle SDK**
@@ -17,7 +17,7 @@ $ npm install react-native-bugbattle --save
 Import the BugBattle SDK by adding the following import inside your ```index.js```.
 
 ```js
-import BugBattle from 'react-native-bugbattle';
+import BugBattle from 'react-native-bugbattle-sdk';
 ```
 
 Add the initialization function within your ```index.js``` after ```AppRegistry.registerComponent(appName, () => App);```.

@@ -1,7 +1,6 @@
 #import "RNBugBattle.h"
 #import <BugBattle/BugBattle.h>
 
-#import <React/RCTBridge.h>
 #import <React/RCTEventDispatcher.h>
 #import <React/RCTLog.h>
 #import <React/RCTUtils.h>
@@ -42,7 +41,6 @@ RCT_EXPORT_MODULE()
 
 RCT_EXPORT_METHOD(initWithToken:(NSString *)token andActivationMethod:(NSString *)activationMethod)
 {
-    // Prevent double initialization, which could happen on live-reloads
     if (RNBugBattle.initialized != 0) {
         NSLog(@"Already initialized Bugbattle SDK.");
         return;
