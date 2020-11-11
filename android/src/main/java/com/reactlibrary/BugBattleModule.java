@@ -31,9 +31,9 @@ public class BugBattleModule extends ReactContextBaseJavaModule {
     public void initialise(String sdkKey, String activationMethod) {
         if(activationMethod.equals("SHAKE")) {
             BugBattle.initialise(sdkKey, BugBattleActivationMethod.SHAKE, getCurrentActivity());
-        }else if(activationMethod.equals("THREE_FINGER_DOUBLE_TAB")) {
+        } else if(activationMethod.equals("THREE_FINGER_DOUBLE_TAB")) {
             BugBattle.initialise(sdkKey, BugBattleActivationMethod.THREE_FINGER_DOUBLE_TAB, getCurrentActivity());
-        }else {
+        } else {
             BugBattle.initialise(sdkKey, BugBattleActivationMethod.NONE, getCurrentActivity());
         }
     }
@@ -42,7 +42,7 @@ public class BugBattleModule extends ReactContextBaseJavaModule {
     public void startBugReporting() {
         try {
             BugBattle.startBugReporting();
-        }catch (Exception e){
+        } catch (Exception e){
             System.out.println(e);
         }
     }
