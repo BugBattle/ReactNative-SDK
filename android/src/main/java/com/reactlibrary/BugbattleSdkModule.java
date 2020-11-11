@@ -1,9 +1,17 @@
 package com.reactlibrary;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
+
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
-import com.facebook.react.bridge.Callback;
+
+import org.json.JSONObject;
+
+import bugbattle.io.bugbattle.BugBattle;
+import bugbattle.io.bugbattle.controller.BugBattleActivationMethod;
 
 public class BugbattleSdkModule extends ReactContextBaseJavaModule {
 

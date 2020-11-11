@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Gradle: com.github.BugBattle:BugBattle-Android-SDK:3.0.8@aar">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/8d1582bcbca7544f69f76f934cf81f63/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/8d1582bcbca7544f69f76f934cf81f63/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/8d1582bcbca7544f69f76f934cf81f63/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.BugBattle/BugBattle-Android-SDK/3.0.8/5eb33ec165ab1315165834e8dbcffe603869d54c/BugBattle-Android-SDK-3.0.8-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
