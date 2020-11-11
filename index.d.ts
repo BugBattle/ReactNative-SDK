@@ -1,17 +1,17 @@
 declare module "react-native-bugbattle-sdk" {
-    export interface MyLib {
-        NONE: string;
-        SHAKE: string;
-        THREE_FINGER_DOUBLE_TAB: string;
+    export namespace BugBattle {
+        const NONE: "NONE";
+        const SHAKE: "SHAKE";
+        const THREE_FINGER_DOUBLE_TAB: "THREE_FINGER_DOUBLE_TAB";
 
-        initWithToken(key: string, activationMethod: "NONE" | "SHAKE" | "THREE_FINGER_DOUBLE_TAB"): void;
-        startBugReporting(): void;
-        setCustomerEmail(email: string): void;
-        attachCustomData(customData: any): void;
-        enablePrivacyPolicy(enable: boolean): void;
-        setPrivacyPolicyUrl(privacyUrl: string): void;
-        setApiUrl(apiUrl: string): void;
+        function initWithToken(key: string, activationMethod: "NONE" | "SHAKE" | "THREE_FINGER_DOUBLE_TAB"): void;
+        function startBugReporting(): void;
+        function setCustomerEmail(email: string): void;
+        function attachCustomData(customData: any): void;
+        function enablePrivacyPolicy(enable: boolean): void;
+        function setPrivacyPolicyUrl(privacyUrl: string): void;
+        function setApiUrl(apiUrl: string): void;
     }
 
-    export let bugbattle: BugBattle
+    export default BugBattle;
 }
