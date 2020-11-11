@@ -1,4 +1,4 @@
-declare module "bugbattle" {
+declare module "react-native-bugbattle-sdk" {
     export interface MyLib {
         NONE: string;
         SHAKE: string;
