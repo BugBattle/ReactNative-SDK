@@ -1,9 +1,10 @@
 {
   "name": "react-native-bugbattle-sdk",
   "title": "React Native Bugbattle Sdk",
-  "version": "1.0.0",
-  "description": "TODO",
+  "version": "3.0.7",
+  "description": "In-App Bug Reporting and Testing for Apps. Learn more at https://www.bugbattle.io",
   "main": "index.js",
+  "types": "index.d.ts",
   "files": [
     "README.md",
     "android",
@@ -14,25 +15,25 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "homepage": "https://www.bugbattle.io",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/github_account/react-native-bugbattle-sdk.git",
-    "baseUrl": "https://github.com/github_account/react-native-bugbattle-sdk"
+    "url": "git+https://github.com/BugBattle/ReactNative-SDK.git",
+    "baseUrl": "https://github.com/BugBattle/ReactNative-SDK"
   },
   "keywords": [
-    "react-native"
+    "react-native",
+    "bug",
+    "bug-reporting",
+    "bug-reporting-tool"
   ],
   "author": {
-    "name": "Your Name",
-    "email": "yourname@email.com"
+    "name": "BugBattle GmbH",
+    "email": "hello@bugbattle.io"
   },
-  "license": "MIT",
+  "license": "Commercial",
   "licenseFilename": "LICENSE",
   "readmeFilename": "README.md",
-  "peerDependencies": {
-    "react": "^16.8.1",
-    "react-native": ">=0.60.0-rc.0 <1.0.x"
-  },
   "devDependencies": {
     "react": "^16.9.0",
     "react-native": "^0.61.5"
