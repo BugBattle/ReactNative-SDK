@@ -1,16 +1,24 @@
 package com.reactlibrary;
 
+import android.app.Activity;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Handler;
 import android.util.Base64;
 
+import com.facebook.react.ReactApplication;
+import com.facebook.react.ReactNativeHost;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.bridge.Callback;
+import com.facebook.react.modules.core.DeviceEventManagerModule;
 
 import org.json.JSONObject;
 
 import bugbattle.io.bugbattle.BugBattle;
+import bugbattle.io.bugbattle.CloseCallback;
 import bugbattle.io.bugbattle.controller.BugBattleActivationMethod;
 
 public class BugbattleSdkModule extends ReactContextBaseJavaModule {
@@ -27,15 +35,55 @@ public class BugbattleSdkModule extends ReactContextBaseJavaModule {
         return "BugbattleSdk";
     }
 
-     @ReactMethod
-    public void initialise(String sdkKey, String activationMethod) {
+    @ReactMethod
+    public void initialize(String sdkKey, String activationMethod) {
         if(activationMethod.equals("SHAKE")) {
             BugBattle.initialise(sdkKey, BugBattleActivationMethod.SHAKE, getCurrentActivity());
-        } else if(activationMethod.equals("THREE_FINGER_DOUBLE_TAB")) {
-            BugBattle.initialise(sdkKey, BugBattleActivationMethod.THREE_FINGER_DOUBLE_TAB, getCurrentActivity());
+            BugBattle.setCloseCallback(new CloseCallback() {
+                @Override
+                public void close() {
+                    new java.util.Timer().schedule(
+                            new java.util.TimerTask() {
+                                @Override
+                                public void run() {
+                                    showDevMenu();
+                                }
+                            },
+                            500
+                    );
+                }
+            });
         } else {
             BugBattle.initialise(sdkKey, BugBattleActivationMethod.NONE, getCurrentActivity());
         }
+    }
+
+
+
+    private void showDevMenu() {
+        final ReactApplication application = (ReactApplication) getReactApplicationContext()
+                .getCurrentActivity()
+                .getApplication();
+
+        Handler mainHandler = new Handler(this.getReactApplicationContext().getMainLooper());
+        Runnable myRunnable = new Runnable() {
+
+            @Override
+            public void run() {
+                try {
+                    application
+                            .getReactNativeHost()
+                            .getReactInstanceManager()
+                            .getDevSupportManager()
+                            .showDevOptionsDialog();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+
+        mainHandler.post(myRunnable);
     }
 
     @ReactMethod
@@ -51,7 +99,7 @@ public class BugbattleSdkModule extends ReactContextBaseJavaModule {
     public void startBugReporting(String base64) {
         byte[] decodedString = Base64.decode(base64, Base64.DEFAULT);
         Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-            BugBattle.startBugReporting(decodedByte);
+        BugBattle.startBugReporting(decodedByte);
     }
 
     @ReactMethod

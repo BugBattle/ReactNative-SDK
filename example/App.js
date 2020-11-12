@@ -10,13 +10,13 @@
 
 import React, { Component } from 'react';
 import {  Image, StyleSheet, View } from 'react-native';
-import BugBattle from 'react-native-bugbattle-sdk';
+import Bugbattle from 'react-native-bugbattle-sdk';
 
 import bugbattleLogo from './bugbattleLogo.png';
 
 export default class App extends Component<{}> {
   componentDidMount() {
-    BugBattle.initWithToken('YOUR_API_KEY', BugBattle.THREE_FINGER_DOUBLE_TAB);
+   // BugBattle.initialize("", Bugbattle.SHAKE);
   }
 
   render() {

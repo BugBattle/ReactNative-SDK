@@ -1,0 +1,9 @@
+com/reactlibrary/BuildConfig.java
+ com.reactlibrary.BuildConfig
+com/reactlibrary/BugbattleSdkModule.java
+ com.reactlibrary.BugbattleSdkModule
+ com.reactlibrary.BugbattleSdkModule$1
+ com.reactlibrary.BugbattleSdkModule$1$1
+ com.reactlibrary.BugbattleSdkModule$2
+com/reactlibrary/BugbattleSdkPackage.java
+ com.reactlibrary.BugbattleSdkPackage
