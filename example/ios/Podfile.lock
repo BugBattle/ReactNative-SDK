@@ -1,5 +1,6 @@
 PODS:
   - boost-for-react-native (1.63.0)
+  - BugBattle (3.0.8)
   - CocoaAsyncSocket (7.6.4)
   - CocoaLibEvent (1.0.0)
   - DoubleConversion (1.1.6)
@@ -237,6 +238,7 @@ PODS:
     - React-jsi (= 0.63.3)
   - React-jsinspector (0.63.3)
   - react-native-bugbattle-sdk (1.0.0):
+    - BugBattle
     - React
   - React-RCTActionSheet (0.63.3):
     - React-Core/RCTActionSheetHeaders (= 0.63.3)
@@ -355,6 +357,7 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - boost-for-react-native
+    - BugBattle
     - CocoaAsyncSocket
     - CocoaLibEvent
     - Flipper
@@ -425,6 +428,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
+  BugBattle: 0c4946b2b0f5c2f67d65d8888cbd8d30c74f0be9
   CocoaAsyncSocket: 694058e7c0ed05a9e217d1b3c7ded962f4180845
   CocoaLibEvent: 2fab71b8bd46dd33ddb959f7928ec5909f838e3f
   DoubleConversion: cde416483dac037923206447da6e1454df403714
@@ -450,7 +454,7 @@ SPEC CHECKSUMS:
   React-jsi: df07aa95b39c5be3e41199921509bfa929ed2b9d
   React-jsiexecutor: b56c03e61c0dd5f5801255f2160a815f4a53d451
   React-jsinspector: 8e68ffbfe23880d3ee9bafa8be2777f60b25cbe2
-  react-native-bugbattle-sdk: 46e11ccd259af78ec3d80053d9de38b62f59c109
+  react-native-bugbattle-sdk: 8a84e8b41c1c279786ab843aba0b49c5ed214400
   React-RCTActionSheet: 53ea72699698b0b47a6421cb1c8b4ab215a774aa
   React-RCTAnimation: 1befece0b5183c22ae01b966f5583f42e69a83c2
   React-RCTBlob: 0b284339cbe4b15705a05e2313a51c6d8b51fa40

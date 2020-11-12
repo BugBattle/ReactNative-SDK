@@ -8,20 +8,24 @@
  * https://github.com/facebook/react-native
  */
 
-import React, { Component } from 'react';
-import { Image, StyleSheet, View } from 'react-native';
+import React, {Component} from 'react';
+import {Image, StyleSheet, TouchableOpacity, View} from 'react-native';
 import BugBattle from 'react-native-bugbattle-sdk';
 import bugbattleLogo from './bugbattleLogo.png';
 
 export default class App extends Component<{}> {
   componentDidMount() {
-    BugBattle.initialize("", BugBattle.SHAKE);
+    BugBattle.initialize('API_TOKEN', BugBattle.SHAKE);
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <Image style={styles.logo} source={bugbattleLogo} resizeMode="contain" />
+        <Image
+          style={styles.logo}
+          source={bugbattleLogo}
+          resizeMode="contain"
+        />
       </View>
     );
   }
@@ -36,6 +40,6 @@ const styles = StyleSheet.create({
   },
   logo: {
     width: '65%',
-    height: 100
+    height: 100,
   },
 });
