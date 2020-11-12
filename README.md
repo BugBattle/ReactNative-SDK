@@ -35,7 +35,7 @@ import BugBattle from 'react-native-bugbattle-sdk';
 Initialize the BugBattle SDK by adding the following line within one of your components. The SDK should be initialized only once!
 
 ```js
-BugBattle.initWithToken('YOUR_API_KEY', BugBattle.SHAKE);
+BugBattle.initialize('YOUR_API_KEY', BugBattle.SHAKE);
 ```
 
 Your API key can be found in the project settings within BugBattle. Possible values for the activation method are ```BugBattle.NONE``` and ```BugBattle.SHAKE```.
