@@ -6,8 +6,8 @@
 6
 7    <uses-sdk
 8        android:minSdkVersion="21"
-8-->/Users/niklasfessler/Dev/ReactNative-SDK/android/src/main/AndroidManifest.xml
+8-->/Users/lukasboehler/Documents/GitHub/ReactNative-SDK/android/src/main/AndroidManifest.xml
 9        android:targetSdkVersion="29" />
-9-->/Users/niklasfessler/Dev/ReactNative-SDK/android/src/main/AndroidManifest.xml
+9-->/Users/lukasboehler/Documents/GitHub/ReactNative-SDK/android/src/main/AndroidManifest.xml
 10
 11</manifest>

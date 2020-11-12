@@ -1,19 +1,14 @@
 package com.reactlibrary;
 
-import android.app.Activity;
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.util.Base64;
 
 import com.facebook.react.ReactApplication;
-import com.facebook.react.ReactNativeHost;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
-import com.facebook.react.bridge.Callback;
-import com.facebook.react.modules.core.DeviceEventManagerModule;
 
 import org.json.JSONObject;
 
@@ -37,7 +32,7 @@ public class BugbattleSdkModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void initialize(String sdkKey, String activationMethod) {
-        if(activationMethod.equals("SHAKE")) {
+        if (activationMethod.equals("SHAKE")) {
             BugBattle.initialise(sdkKey, BugBattleActivationMethod.SHAKE, getCurrentActivity());
             BugBattle.setCloseCallback(new CloseCallback() {
                 @Override
@@ -57,17 +52,13 @@ public class BugbattleSdkModule extends ReactContextBaseJavaModule {
             BugBattle.initialise(sdkKey, BugBattleActivationMethod.NONE, getCurrentActivity());
         }
     }
-
-
-
+    
     private void showDevMenu() {
         final ReactApplication application = (ReactApplication) getReactApplicationContext()
                 .getCurrentActivity()
                 .getApplication();
-
         Handler mainHandler = new Handler(this.getReactApplicationContext().getMainLooper());
         Runnable myRunnable = new Runnable() {
-
             @Override
             public void run() {
                 try {
@@ -81,8 +72,6 @@ public class BugbattleSdkModule extends ReactContextBaseJavaModule {
                 }
             }
         };
-
-
         mainHandler.post(myRunnable);
     }
 
@@ -139,5 +128,4 @@ public class BugbattleSdkModule extends ReactContextBaseJavaModule {
             System.out.println(e);
         }
     }
-
 }

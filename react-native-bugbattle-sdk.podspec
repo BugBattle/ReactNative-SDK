@@ -9,16 +9,20 @@ Pod::Spec.new do |s|
   s.description  = <<-DESC
                   react-native-bugbattle-sdk
                    DESC
-  s.homepage     = "https://www.bugbattle.io"
+  s.homepage     = "https://github.com/github_account/react-native-bugbattle-sdk"
+  # brief license entry:
   s.license      = "MIT"
-  s.authors      = { "BugBattle" => "hello@bugbattle.io" }
+  # optional - use expanded license entry instead:
+  # s.license    = { :type => "MIT", :file => "LICENSE" }
+  s.authors      = { "Your Name" => "yourname@email.com" }
   s.platforms    = { :ios => "9.0" }
-  s.source       = { :git => "https://github.com/BugBattle/ReactNative-SDK.git", :tag => "#{s.version}" }
+  s.source       = { :git => "https://github.com/github_account/react-native-bugbattle-sdk.git", :tag => "#{s.version}" }
 
   s.source_files = "ios/**/*.{h,c,m,swift}"
   s.requires_arc = true
 
   s.dependency "React"
-  s.dependency "BugBattle"
+  # ...
+  # s.dependency "..."
 end
 
