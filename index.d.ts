@@ -3,7 +3,7 @@ declare module "react-native-bugbattle-sdk" {
     const NONE: "NONE";
     const SHAKE: "SHAKE";
     const THREE_FINGER_DOUBLE_TAB: "THREE_FINGER_DOUBLE_TAB";
-    function initWithToken(
+    function initialize(
       key: string,
       activationMethod: "NONE" | "SHAKE" | "THREE_FINGER_DOUBLE_TAB"
     ): void;
