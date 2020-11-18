@@ -26,13 +26,13 @@ pod install
 
 **Initialize BugBattle SDK**
 
-Import the BugBattle SDK by adding the following import inside your ```index.js```.
+Import the BugBattle SDK by adding the following import inside one of your root components.
 
 ```js
 import BugBattle from 'react-native-bugbattle-sdk';
 ```
 
-Initialize the BugBattle SDK by adding the following line within one of your components. The SDK should be initialized only once!
+In addition, you need to call the initialization function to initialize the Bugbattle SDK. Make sure that the initialization method gets called only once (i.e. by using ```useEffect```).
 
 ```js
 BugBattle.initialize('YOUR_API_KEY', BugBattle.SHAKE);
