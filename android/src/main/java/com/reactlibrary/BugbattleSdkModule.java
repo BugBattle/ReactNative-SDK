@@ -33,7 +33,9 @@ public class BugbattleSdkModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void initialize(String sdkKey, String activationMethod) {
         if (activationMethod.equals("SHAKE")) {
-            BugBattle.initialise(sdkKey, BugBattleActivationMethod.SHAKE, getCurrentActivity());
+            BugBattle.initialise(sdkKey, BugBattleActivationMethod.SHAKE, getReactApplicationContext()
+                    .getCurrentActivity()
+                    .getApplication());
             BugBattle.setCloseCallback(new CloseCallback() {
                 @Override
                 public void close() {
@@ -49,7 +51,9 @@ public class BugbattleSdkModule extends ReactContextBaseJavaModule {
                 }
             });
         } else {
-            BugBattle.initialise(sdkKey, BugBattleActivationMethod.NONE, getCurrentActivity());
+            BugBattle.initialise(sdkKey, BugBattleActivationMethod.NONE, getReactApplicationContext()
+                    .getCurrentActivity()
+                    .getApplication());
         }
     }
     
@@ -78,14 +82,35 @@ public class BugbattleSdkModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void startBugReporting() {
         try {
+
+            BugBattle.setCloseCallback(new CloseCallback() {
+                @Override
+                public void close() {
+                    //Dont open dev menu
+                }
+            });
             BugBattle.startBugReporting();
+            BugBattle.setCloseCallback(new CloseCallback() {
+                @Override
+                public void close() {
+                    new java.util.Timer().schedule(
+                            new java.util.TimerTask() {
+                                @Override
+                                public void run() {
+                                    showDevMenu();
+                                }
+                            },
+                            500
+                    );
+                }
+            });
         } catch (Exception e){
             System.out.println(e);
         }
     }
 
     @ReactMethod
-    public void startBugReporting(String base64) {
+    public void startBugReportingWithImage(String base64) {
         byte[] decodedString = Base64.decode(base64, Base64.DEFAULT);
         Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
         BugBattle.startBugReporting(decodedByte);

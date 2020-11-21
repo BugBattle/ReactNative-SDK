@@ -76,7 +76,7 @@ repositories {
 dependencies {
     //noinspection GradleDynamicVersion
     implementation 'com.facebook.react:react-native:+'  // From node_modules
-    implementation 'com.github.BugBattle:BugBattle-Android-SDK:3.0.16'
+    implementation 'com.github.BugBattle:BugBattle-Android-SDK:3.0.19'
 }
 
 def configureReactNativePom(def pom) {
