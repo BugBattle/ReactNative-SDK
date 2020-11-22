@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { Image, StyleSheet, View } from 'react-native';
 import BugBattle from 'react-native-bugbattle-sdk';
-import bugbattleLogo from './bugbattleLogo.png';
+
+const bugbattleLogo = require('./bugbattleLogo.png');
 
 export default function App() {
   React.useEffect(() => {
