@@ -1,13 +1,11 @@
 #import "BugbattleSdk.h"
+
 #import <BugBattle/BugBattle.h>
 
 #import <React/RCTEventDispatcher.h>
 #import <React/RCTLog.h>
 #import <React/RCTUtils.h>
 
-static NSString* const BB_NONE = @"NONE";
-static NSString* const BB_SHAKE = @"SHAKE";
-static NSString* const BB_THREE_FINGER_DOUBLE_TAB = @"THREE_FINGER_DOUBLE_TAB";
 static NSString *const RCTShowDevMenuNotification = @"RCTShowDevMenuNotification";
 
 #if !RCT_DEV
@@ -39,7 +37,7 @@ RCT_EXPORT_METHOD(initialize:(NSString *)token andActivationMethod:(NSString *)a
     // Initialize the SDK
     [BugBattle initWithToken: token andActivationMethod: NONE];
     
-    if ([activationMethod isEqualToString: BB_SHAKE]) {
+    if ([activationMethod isEqualToString: @"SHAKE"]) {
         [[NSNotificationCenter defaultCenter] addObserver: self
                                                      selector: @selector(motionEnded:)
                                                          name: RCTShowDevMenuNotification
@@ -50,7 +48,7 @@ RCT_EXPORT_METHOD(initialize:(NSString *)token andActivationMethod:(NSString *)a
         #endif
     }
     
-    if ([activationMethod isEqualToString: BB_THREE_FINGER_DOUBLE_TAB]) {
+    if ([activationMethod isEqualToString: @"THREE_FINGER_DOUBLE_TAB"]) {
         [self initializeGestureRecognizer];
     }
 }

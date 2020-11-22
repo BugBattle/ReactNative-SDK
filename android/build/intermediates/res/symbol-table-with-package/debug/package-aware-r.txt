@@ -1,4 +1,4 @@
-com.reactlibrary
+com.reactnativebugbattlesdk
 anim abc_fade_in
 anim abc_fade_out
 anim abc_grow_fade_in_from_bottom
@@ -1546,6 +1546,7 @@ style Animation_Catalyst_LogBox
 style Animation_Catalyst_RedBox
 style Animation_Design_BottomSheetDialog
 style AppTheme_TranslucentBG
+style AppTheme_Transparent
 style Base_AlertDialog_AppCompat
 style Base_AlertDialog_AppCompat_Light
 style Base_Animation_AppCompat_Dialog

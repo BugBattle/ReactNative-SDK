@@ -40,3 +40,10 @@ BugBattle.initialize('YOUR_API_KEY', BugBattle.SHAKE);
 
 Your API key can be found in the project settings within BugBattle. Possible values for the activation method are ```BugBattle.NONE``` and ```BugBattle.SHAKE```.
 
+## Contributing
+
+See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the repository and the development workflow.
+
+## License
+
+See [license file](LICENSE) for more informations.
