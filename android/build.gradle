@@ -57,7 +57,7 @@ repositories {
   mavenCentral()
   jcenter()
   google()
-
+  maven { url 'https://jitpack.io' }
   def found = false
   def defaultDir = null
   def androidSourcesName = 'React Native sources'
@@ -130,5 +130,5 @@ dependencies {
   // noinspection GradleDynamicVersion
   api 'com.facebook.react:react-native:+'
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-  implementation 'com.github.BugBattle:BugBattle-Android-SDK:3.0.20'
+  implementation 'com.github.BugBattle:BugBattle-Android-SDK:3.0.23'
 }

@@ -50,6 +50,10 @@ public class BugbattleSdkModule extends ReactContextBaseJavaModule {
                     );
                 }
             });
+        } else if(activationMethod.equals("SCREENSHOT")) {
+            BugBattle.initialise(sdkKey, BugBattleActivationMethod.SCREENSHOT, getReactApplicationContext()
+                    .getCurrentActivity()
+                    .getApplication());
         } else {
             BugBattle.initialise(sdkKey, BugBattleActivationMethod.NONE, getReactApplicationContext()
                     .getCurrentActivity()
