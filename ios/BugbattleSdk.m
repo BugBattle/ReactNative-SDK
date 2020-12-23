@@ -35,7 +35,11 @@ RCT_EXPORT_MODULE()
 RCT_EXPORT_METHOD(initialize:(NSString *)token andActivationMethod:(NSString *)activationMethod)
 {
     // Initialize the SDK
-    [BugBattle initWithToken: token andActivationMethod: NONE];
+    if ([activationMethod isEqualToString: @"SCREENSHOT"]) {
+        [BugBattle initWithToken: token andActivationMethod: SCREENSHOT];
+    } else {
+        [BugBattle initWithToken: token andActivationMethod: NONE];
+    }
     
     if ([activationMethod isEqualToString: @"SHAKE"]) {
         [[NSNotificationCenter defaultCenter] addObserver: self

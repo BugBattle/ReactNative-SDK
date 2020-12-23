@@ -6,7 +6,7 @@ const bugbattleLogo = require('./bugbattleLogo.png');
 
 export default function App() {
   React.useEffect(() => {
-    BugBattle.initialize('YOUR_API_KEY', BugBattle.SHAKE);
+    BugBattle.initialize('YOUR_API_KEY', BugBattle.SCREENSHOT);
   }, []);
 
   return (
