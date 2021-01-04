@@ -18,11 +18,9 @@ import bugbattle.io.bugbattle.controller.BugBattleActivationMethod;
 
 public class BugbattleSdkModule extends ReactContextBaseJavaModule {
 
-    private final ReactApplicationContext reactContext;
 
     public BugbattleSdkModule(ReactApplicationContext reactContext) {
         super(reactContext);
-        this.reactContext = reactContext;
     }
 
     @Override

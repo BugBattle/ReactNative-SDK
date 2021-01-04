@@ -5,9 +5,7 @@ buildscript {
   repositories {
     google()
     jcenter()
-    maven {
-        url 'https://jitpack.io'
-    }
+
   }
 
   dependencies {
@@ -16,6 +14,7 @@ buildscript {
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
   }
 }
+
 
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
@@ -28,6 +27,7 @@ def getExtOrIntegerDefault(name) {
   return rootProject.ext.has(name) ? rootProject.ext.get(name) : (project.properties['BugbattleSdk_' + name]).toInteger()
 }
 
+
 android {
   compileSdkVersion getExtOrIntegerDefault('compileSdkVersion')
   buildToolsVersion getExtOrDefault('buildToolsVersion')
@@ -36,9 +36,9 @@ android {
     targetSdkVersion getExtOrIntegerDefault('targetSdkVersion')
     versionCode 1
     versionName "1.0"
-    
+
   }
-  
+
   buildTypes {
     release {
       minifyEnabled false
@@ -57,7 +57,7 @@ repositories {
   mavenCentral()
   jcenter()
   google()
-  maven { url 'https://jitpack.io' }
+
   def found = false
   def defaultDir = null
   def androidSourcesName = 'React Native sources'
@@ -130,5 +130,6 @@ dependencies {
   // noinspection GradleDynamicVersion
   api 'com.facebook.react:react-native:+'
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-  implementation 'com.github.BugBattle:BugBattle-Android-SDK:3.0.23'
+  implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+  implementation 'io.bugbattle:Bugbattle-Android-SDK:3.0.28'
 }
