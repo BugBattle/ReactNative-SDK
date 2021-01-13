@@ -15,6 +15,7 @@ import org.json.JSONObject;
 import bugbattle.io.bugbattle.BugBattle;
 import bugbattle.io.bugbattle.CloseCallback;
 import bugbattle.io.bugbattle.controller.BugBattleActivationMethod;
+import bugbattle.io.bugbattle.model.APPLICATIONTYPE;
 
 public class BugbattleSdkModule extends ReactContextBaseJavaModule {
 
@@ -30,6 +31,7 @@ public class BugbattleSdkModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void initialize(String sdkKey, String activationMethod) {
+        BugBattle.setApplicationType(APPLICATIONTYPE.REACTNATIVE);
         if (activationMethod.equals("SHAKE")) {
             BugBattle.initialise(sdkKey, BugBattleActivationMethod.SHAKE, getReactApplicationContext()
                     .getCurrentActivity()
@@ -116,11 +118,6 @@ public class BugbattleSdkModule extends ReactContextBaseJavaModule {
         byte[] decodedString = Base64.decode(base64, Base64.DEFAULT);
         Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
         BugBattle.startBugReporting(decodedByte);
-    }
-
-    @ReactMethod
-    public void trackStep(String type, String data) {
-        BugBattle.trackStep(type, data);
     }
 
     @ReactMethod
