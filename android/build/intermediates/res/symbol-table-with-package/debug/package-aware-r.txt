@@ -1567,6 +1567,7 @@ layout abc_select_dialog_material
 layout abc_tooltip
 layout activity_feedback
 layout activity_image_editor
+layout activity_on_boarding
 layout design_bottom_navigation_item
 layout design_bottom_sheet_dialog
 layout design_layout_snackbar

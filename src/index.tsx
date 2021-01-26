@@ -11,7 +11,7 @@ type BugbattleSdkType = {
   ): void;
   initializeMany(
     key: string,
-    activationMethods: "NONE" | "SHAKE" | "SCREENSHOT"[]
+    activationMethods: ("NONE" | "SHAKE" | "SCREENSHOT")[]
   ): void;
   startBugReporting(): void;
   setCustomerEmail(email: string): void;
