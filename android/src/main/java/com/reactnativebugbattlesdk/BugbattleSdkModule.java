@@ -37,6 +37,7 @@ public class BugbattleSdkModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void initializeMany(String sdkKey, ReadableArray activationMethods) {
+        BugBattle.setApplicationType(APPLICATIONTYPE.REACTNATIVE);
         List<BugBattleActivationMethod> activationMethodsList = new LinkedList<>();
         for (Object activationMethod : activationMethods.toArrayList()) {
             if (activationMethod.equals("SHAKE")) {
