@@ -1219,7 +1219,7 @@ int drawable roundbutton_red_selected 0x7f08007f
 int drawable roundbutton_yellow 0x7f080080
 int drawable roundbutton_yellow_selected 0x7f080081
 int drawable segment_button_background 0x7f080082
-int drawable senticon 0x7f080083
+int drawable sent_icon 0x7f080083
 int drawable shadow_rect 0x7f080084
 int drawable text_inactive 0x7f080085
 int drawable tooltip_frame_dark 0x7f080086

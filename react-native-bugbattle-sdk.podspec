@@ -18,5 +18,5 @@ Pod::Spec.new do |s|
   
 
   s.dependency "React"
-  s.dependency "BugBattle"
+  s.dependency "BugBattle", ">= 3.1.1"
 end

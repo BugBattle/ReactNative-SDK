@@ -9,8 +9,13 @@ import com.facebook.react.ReactApplication;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.bridge.ReadableArray;
+import com.facebook.react.bridge.ReadableMap;
 
 import org.json.JSONObject;
+
+import java.util.LinkedList;
+import java.util.List;
 
 import bugbattle.io.bugbattle.BugBattle;
 import bugbattle.io.bugbattle.CloseCallback;
@@ -27,6 +32,35 @@ public class BugbattleSdkModule extends ReactContextBaseJavaModule {
     @Override
     public String getName() {
         return "BugbattleSdk";
+    }
+
+
+    @ReactMethod
+    public void initializeMany(String sdkKey, ReadableArray activationMethods) {
+        BugBattle.setApplicationType(APPLICATIONTYPE.REACTNATIVE);
+        List<BugBattleActivationMethod> activationMethodsList = new LinkedList<>();
+        for (Object activationMethod : activationMethods.toArrayList()) {
+            if (activationMethod.equals("SHAKE")) {
+                activationMethodsList.add(BugBattleActivationMethod.SHAKE);
+                BugBattle.setCloseCallback(new CloseCallback() {
+                    @Override
+                    public void close() {
+                        new java.util.Timer().schedule(
+                                new java.util.TimerTask() {
+                                    @Override
+                                    public void run() {
+                                        showDevMenu();
+                                    }
+                                },
+                                500
+                        );
+                    }
+                });
+            } else if (activationMethod.equals("SCREENSHOT")) {
+                activationMethodsList.add(BugBattleActivationMethod.SCREENSHOT);
+            }
+        }
+        BugBattle.initialise(sdkKey, activationMethodsList.toArray(new BugBattleActivationMethod[activationMethodsList.size()]), getReactApplicationContext().getCurrentActivity().getApplication());
     }
 
     @ReactMethod
@@ -50,7 +84,7 @@ public class BugbattleSdkModule extends ReactContextBaseJavaModule {
                     );
                 }
             });
-        } else if(activationMethod.equals("SCREENSHOT")) {
+        } else if (activationMethod.equals("SCREENSHOT")) {
             BugBattle.initialise(sdkKey, BugBattleActivationMethod.SCREENSHOT, getReactApplicationContext()
                     .getCurrentActivity()
                     .getApplication());
@@ -60,7 +94,7 @@ public class BugbattleSdkModule extends ReactContextBaseJavaModule {
                     .getApplication());
         }
     }
-    
+
     private void showDevMenu() {
         final ReactApplication application = (ReactApplication) getReactApplicationContext()
                 .getCurrentActivity()
@@ -82,7 +116,7 @@ public class BugbattleSdkModule extends ReactContextBaseJavaModule {
         };
         mainHandler.post(myRunnable);
     }
-    
+
     @ReactMethod
     public void startBugReporting() {
         try {
@@ -135,21 +169,26 @@ public class BugbattleSdkModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void enablePrivacyPolicy(boolean enable){
+    public void enablePrivacyPolicy(boolean enable) {
         BugBattle.enablePrivacyPolicy(enable);
     }
 
     @ReactMethod
-    public void setPrivacyPolicyUrl(String privacyUrl){
+    public void setPrivacyPolicyUrl(String privacyUrl) {
         BugBattle.setPrivacyPolicyUrl(privacyUrl);
     }
 
     @ReactMethod
-    public void setApiURL(String apiUrl){
+    public void setApiURL(String apiUrl) {
         try {
             BugBattle.setApiURL(apiUrl);
         } catch (Exception e) {
             System.out.println(e);
         }
+    }
+
+    @ReactMethod
+    public void enableReplays(boolean enable) {
+        BugBattle.enableReplay();
     }
 }

@@ -1220,7 +1220,7 @@ drawable roundbutton_red_selected
 drawable roundbutton_yellow
 drawable roundbutton_yellow_selected
 drawable segment_button_background
-drawable senticon
+drawable sent_icon
 drawable shadow_rect
 drawable text_inactive
 drawable tooltip_frame_dark

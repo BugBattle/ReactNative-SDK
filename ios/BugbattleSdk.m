@@ -57,6 +57,40 @@ RCT_EXPORT_METHOD(initialize:(NSString *)token andActivationMethod:(NSString *)a
     }
 }
 
+RCT_EXPORT_METHOD(initializeMany:(NSString *)token andActivationMethods:(NSArray *)activationMethods)
+{
+    // Initialize the SDK
+    if ([self activationMethods: activationMethods contain: @"SCREENSHOT"]) {
+        [BugBattle initWithToken: token andActivationMethod: SCREENSHOT];
+    } else {
+        [BugBattle initWithToken: token andActivationMethod: NONE];
+    }
+    
+    if ([self activationMethods: activationMethods contain: @"SHAKE"]) {
+        [[NSNotificationCenter defaultCenter] addObserver: self
+                                                     selector: @selector(motionEnded:)
+                                                         name: RCTShowDevMenuNotification
+                                                    object: nil];
+        
+        #if !RCT_DEV
+            RCTSwapInstanceMethods([UIWindow class], @selector(motionEnded:withEvent:), @selector(handleShakeEvent:withEvent:));
+        #endif
+    }
+    
+    if ([self activationMethods: activationMethods contain: @"THREE_FINGER_DOUBLE_TAB"]) {
+        [self initializeGestureRecognizer];
+    }
+}
+
+- (BOOL)activationMethods: (NSArray *)activationMethods contain: (NSString *)activationMethod {
+    for (int i = 0; i < activationMethods.count; i++) {
+        if ([activationMethod isEqualToString: [activationMethods objectAtIndex: i]]) {
+            return true;
+        }
+    }
+    return false;
+}
+
 - (void)initializeGestureRecognizer {
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget: self action: @selector(handleTapGestureActivation:)];
     tapGestureRecognizer.numberOfTapsRequired = 2;
@@ -94,6 +128,11 @@ RCT_EXPORT_METHOD(attachCustomData:(NSDictionary *)customData)
 RCT_EXPORT_METHOD(enablePrivacyPolicy:(BOOL)enable)
 {
     [BugBattle enablePrivacyPolicy: enable];
+}
+
+RCT_EXPORT_METHOD(enableReplays:(BOOL)enable)
+{
+    [BugBattle enableReplays: enable];
 }
 
 RCT_EXPORT_METHOD(setPrivacyPolicyUrl: (NSString *)privacyPolicyUrl)

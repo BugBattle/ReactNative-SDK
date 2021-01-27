@@ -9,10 +9,15 @@ type BugbattleSdkType = {
     key: string,
     activationMethod: "NONE" | "SHAKE" | "SCREENSHOT"
   ): void;
+  initializeMany(
+    key: string,
+    activationMethods: ("NONE" | "SHAKE" | "SCREENSHOT")[]
+  ): void;
   startBugReporting(): void;
   setCustomerEmail(email: string): void;
   attachCustomData(customData: any): void;
   enablePrivacyPolicy(enable: boolean): void;
+  enableReplays(enable: boolean): void;
   setPrivacyPolicyUrl(privacyUrl: string): void;
   setApiUrl(apiUrl: string): void;
 };
