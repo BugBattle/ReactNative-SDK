@@ -1,17 +1,17 @@
 import { NativeModules } from 'react-native';
 
 type BugbattleSdkType = {
-  NONE: "NONE";
-  SHAKE: "SHAKE";
-  SCREENSHOT: "SCREENSHOT";
-  
+  NONE: 'NONE';
+  SHAKE: 'SHAKE';
+  SCREENSHOT: 'SCREENSHOT';
+
   initialize(
     key: string,
-    activationMethod: "NONE" | "SHAKE" | "SCREENSHOT"
+    activationMethod: 'NONE' | 'SHAKE' | 'SCREENSHOT'
   ): void;
   initializeMany(
     key: string,
-    activationMethods: ("NONE" | "SHAKE" | "SCREENSHOT")[]
+    activationMethods: ('NONE' | 'SHAKE' | 'SCREENSHOT')[]
   ): void;
   startBugReporting(): void;
   setCustomerEmail(email: string): void;
@@ -20,14 +20,15 @@ type BugbattleSdkType = {
   enableReplays(enable: boolean): void;
   setPrivacyPolicyUrl(privacyUrl: string): void;
   setApiUrl(apiUrl: string): void;
+  setLanguage(language: string): void;
 };
 
 const { BugbattleSdk } = NativeModules;
 
 if (BugbattleSdk) {
-  BugbattleSdk.NONE = "NONE";
-  BugbattleSdk.SHAKE = "SHAKE";
-  BugbattleSdk.SCREENSHOT = "SCREENSHOT";
+  BugbattleSdk.NONE = 'NONE';
+  BugbattleSdk.SHAKE = 'SHAKE';
+  BugbattleSdk.SCREENSHOT = 'SCREENSHOT';
 }
 
 export default BugbattleSdk as BugbattleSdkType;

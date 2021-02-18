@@ -191,4 +191,9 @@ public class BugbattleSdkModule extends ReactContextBaseJavaModule {
     public void enableReplays(boolean enable) {
         BugBattle.enableReplay();
     }
+
+    @ReactMethod
+    public void setLanguage(String language) {
+        BugBattle.setLanguage(language);
+    }
 }
