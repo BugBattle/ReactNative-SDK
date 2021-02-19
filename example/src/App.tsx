@@ -7,7 +7,14 @@ const bugbattleLogo = require('./bugbattleLogo.png');
 export default function App() {
   React.useEffect(() => {
     BugBattle.initialize('YOUR_API_KEY', BugBattle.SHAKE);
+
     BugBattle.enableReplays(false);
+    BugBattle.setCustomerEmail("niklas@customemail.at");
+    // BugBattle.attachCustomData();
+    BugBattle.enablePrivacyPolicy(true);
+    BugBattle.setPrivacyPolicyUrl("MYURL.com");
+    //   BugBattle.setApiUrl(apiUrl: string): void;
+    //BugBattle.setLanguage("it");
   }, []);
 
   return (
