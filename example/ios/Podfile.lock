@@ -186,7 +186,7 @@ PODS:
     - React-cxxreact (= 0.63.3)
     - React-jsi (= 0.63.3)
   - React-jsinspector (0.63.3)
-  - react-native-bugbattle-sdk (3.1.6):
+  - react-native-bugbattle-sdk (3.1.7):
     - BugBattle (>= 3.1.6)
     - React
   - React-RCTActionSheet (0.63.3):
@@ -361,7 +361,7 @@ SPEC CHECKSUMS:
   React-jsi: df07aa95b39c5be3e41199921509bfa929ed2b9d
   React-jsiexecutor: b56c03e61c0dd5f5801255f2160a815f4a53d451
   React-jsinspector: 8e68ffbfe23880d3ee9bafa8be2777f60b25cbe2
-  react-native-bugbattle-sdk: dfa6ed94d8cd3f9c81ea78858320a3796b58ae5b
+  react-native-bugbattle-sdk: 4579fdf5feb43adeaef80c9906aa3751eeb78358
   React-RCTActionSheet: 53ea72699698b0b47a6421cb1c8b4ab215a774aa
   React-RCTAnimation: 1befece0b5183c22ae01b966f5583f42e69a83c2
   React-RCTBlob: 0b284339cbe4b15705a05e2313a51c6d8b51fa40
