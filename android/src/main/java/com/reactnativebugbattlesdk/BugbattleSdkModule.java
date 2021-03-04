@@ -189,7 +189,9 @@ public class BugbattleSdkModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void enableReplays(boolean enable) {
-        BugBattle.enableReplay();
+        if(enable) {
+            BugBattle.enableReplay();
+        }
     }
 
     @ReactMethod
