@@ -1637,7 +1637,7 @@ int string abc_shareactionprovider_share_with 0x7f140025
 int string abc_shareactionprovider_share_with_application 0x7f140026
 int string abc_toolbar_collapse_description 0x7f140027
 int string alert_description 0x7f140028
-int string app_name 0x7f140029
+int string app_name_bb 0x7f140029
 int string appbar_scrolling_view_behavior 0x7f14002a
 int string bottom_sheet_behavior 0x7f14002b
 int string button_description 0x7f14002c

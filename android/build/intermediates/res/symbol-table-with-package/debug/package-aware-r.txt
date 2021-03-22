@@ -1638,7 +1638,7 @@ string abc_shareactionprovider_share_with
 string abc_shareactionprovider_share_with_application
 string abc_toolbar_collapse_description
 string alert_description
-string app_name
+string app_name_bb
 string appbar_scrolling_view_behavior
 string bottom_sheet_behavior
 string button_description

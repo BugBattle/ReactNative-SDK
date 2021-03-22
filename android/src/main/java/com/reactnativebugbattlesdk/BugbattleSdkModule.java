@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.util.Base64;
 
 import com.facebook.react.ReactApplication;
+import com.facebook.react.bridge.LifecycleEventListener;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
@@ -37,61 +38,98 @@ public class BugbattleSdkModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void initializeMany(String sdkKey, ReadableArray activationMethods) {
-        BugBattle.setApplicationType(APPLICATIONTYPE.REACTNATIVE);
-        List<BugBattleActivationMethod> activationMethodsList = new LinkedList<>();
-        for (Object activationMethod : activationMethods.toArrayList()) {
-            if (activationMethod.equals("SHAKE")) {
-                activationMethodsList.add(BugBattleActivationMethod.SHAKE);
-                BugBattle.setCloseCallback(new CloseCallback() {
-                    @Override
-                    public void close() {
-                        new java.util.Timer().schedule(
-                                new java.util.TimerTask() {
-                                    @Override
-                                    public void run() {
-                                        showDevMenu();
-                                    }
-                                },
-                                500
-                        );
+        try {
+            getReactApplicationContext().addLifecycleEventListener(new LifecycleEventListener() {
+                @Override
+                public void onHostResume() {
+                    BugBattle.setApplicationType(APPLICATIONTYPE.REACTNATIVE);
+                    List<BugBattleActivationMethod> activationMethodsList = new LinkedList<>();
+                    for (Object activationMethod : activationMethods.toArrayList()) {
+                        if (activationMethod.equals("SHAKE")) {
+                            activationMethodsList.add(BugBattleActivationMethod.SHAKE);
+                            BugBattle.setCloseCallback(new CloseCallback() {
+                                @Override
+                                public void close() {
+                                    new java.util.Timer().schedule(
+                                            new java.util.TimerTask() {
+                                                @Override
+                                                public void run() {
+                                                    showDevMenu();
+                                                }
+                                            },
+                                            500
+                                    );
+                                }
+                            });
+                        } else if (activationMethod.equals("SCREENSHOT")) {
+                            activationMethodsList.add(BugBattleActivationMethod.SCREENSHOT);
+                        }
                     }
-                });
-            } else if (activationMethod.equals("SCREENSHOT")) {
-                activationMethodsList.add(BugBattleActivationMethod.SCREENSHOT);
-            }
-        }
-        BugBattle.initialise(sdkKey, activationMethodsList.toArray(new BugBattleActivationMethod[activationMethodsList.size()]), getReactApplicationContext().getCurrentActivity().getApplication());
+                    BugBattle.initialise(sdkKey, activationMethodsList.toArray(new BugBattleActivationMethod[activationMethodsList.size()]), getReactApplicationContext().getCurrentActivity().getApplication());
+                }
+
+                @Override
+                public void onHostPause() {
+
+                }
+
+                @Override
+                public void onHostDestroy() {
+
+                }
+            });
+            }catch (Exception ex) {}
     }
 
     @ReactMethod
     public void initialize(String sdkKey, String activationMethod) {
-        BugBattle.setApplicationType(APPLICATIONTYPE.REACTNATIVE);
-        if (activationMethod.equals("SHAKE")) {
-            BugBattle.initialise(sdkKey, BugBattleActivationMethod.SHAKE, getReactApplicationContext()
-                    .getCurrentActivity()
-                    .getApplication());
-            BugBattle.setCloseCallback(new CloseCallback() {
+        try {
+            getReactApplicationContext().addLifecycleEventListener(new LifecycleEventListener() {
                 @Override
-                public void close() {
-                    new java.util.Timer().schedule(
-                            new java.util.TimerTask() {
-                                @Override
-                                public void run() {
-                                    showDevMenu();
-                                }
-                            },
-                            500
-                    );
+                public void onHostResume() {
+                    BugBattle.setApplicationType(APPLICATIONTYPE.REACTNATIVE);
+                    if (activationMethod.equals("SHAKE")) {
+                        BugBattle.initialise(sdkKey, BugBattleActivationMethod.SHAKE, getReactApplicationContext()
+                                .getCurrentActivity()
+                                .getApplication());
+                        BugBattle.setCloseCallback(new CloseCallback() {
+                            @Override
+                            public void close() {
+                                new java.util.Timer().schedule(
+                                        new java.util.TimerTask() {
+                                            @Override
+                                            public void run() {
+                                                showDevMenu();
+                                            }
+                                        },
+                                        500
+                                );
+                            }
+                        });
+                    } else if (activationMethod.equals("SCREENSHOT")) {
+                        BugBattle.initialise(sdkKey, BugBattleActivationMethod.SCREENSHOT, getReactApplicationContext()
+                                .getCurrentActivity()
+                                .getApplication());
+                    } else {
+                        BugBattle.initialise(sdkKey, BugBattleActivationMethod.NONE, getReactApplicationContext()
+                                .getCurrentActivity()
+                                .getApplication());
+                    }
+                }
+
+                @Override
+                public void onHostPause() {
+
+                }
+
+                @Override
+                public void onHostDestroy() {
+
                 }
             });
-        } else if (activationMethod.equals("SCREENSHOT")) {
-            BugBattle.initialise(sdkKey, BugBattleActivationMethod.SCREENSHOT, getReactApplicationContext()
-                    .getCurrentActivity()
-                    .getApplication());
-        } else {
-            BugBattle.initialise(sdkKey, BugBattleActivationMethod.NONE, getReactApplicationContext()
-                    .getCurrentActivity()
-                    .getApplication());
+
+        } catch (Exception err) {
+
         }
     }
 
@@ -189,7 +227,7 @@ public class BugbattleSdkModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void enableReplays(boolean enable) {
-        if(enable) {
+        if (enable) {
             BugBattle.enableReplay();
         }
     }
