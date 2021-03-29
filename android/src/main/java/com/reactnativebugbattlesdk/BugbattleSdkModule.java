@@ -212,7 +212,7 @@ public class BugbattleSdkModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void setApiURL(String apiUrl) {
+    public void setApiUrl(String apiUrl) {
         try {
             BugBattle.setApiURL(apiUrl);
         } catch (Exception e) {
