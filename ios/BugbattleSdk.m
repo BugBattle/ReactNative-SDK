@@ -1,7 +1,5 @@
 #import "BugbattleSdk.h"
 
-#import <BugBattle/BugBattle.h>
-
 #import <React/RCTEventDispatcher.h>
 #import <React/RCTLog.h>
 #import <React/RCTUtils.h>
@@ -24,6 +22,9 @@ static NSString *const RCTShowDevMenuNotification = @"RCTShowDevMenuNotification
 #endif
 
 @implementation BugbattleSdk
+{
+  BOOL _hasListeners;
+}
 
 RCT_EXPORT_MODULE()
 
@@ -55,6 +56,8 @@ RCT_EXPORT_METHOD(initialize:(NSString *)token andActivationMethod:(NSString *)a
     if ([activationMethod isEqualToString: @"THREE_FINGER_DOUBLE_TAB"]) {
         [self initializeGestureRecognizer];
     }
+    
+    BugBattle.sharedInstance.delegate = self;
 }
 
 RCT_EXPORT_METHOD(initializeMany:(NSString *)token andActivationMethods:(NSArray *)activationMethods)
@@ -108,6 +111,31 @@ RCT_EXPORT_METHOD(initializeMany:(NSString *)token andActivationMethods:(NSArray
 - (void)motionEnded:(NSNotification *)notification
 {
     [BugBattle startBugReporting];
+}
+
+- (void)bugWillBeSent {
+    if (_hasListeners) {
+        [self sendEventWithName:@"bugWillBeSent" body:@{}];
+    }
+}
+
+- (void)startObserving
+{
+  _hasListeners = YES;
+}
+
+- (void)stopObserving
+{
+  _hasListeners = NO;
+}
+
+- (NSArray<NSString *> *)supportedEvents {
+    return @[@"bugWillBeSent"];
+}
+
+RCT_EXPORT_METHOD(attachNetworkLog:(NSArray *)networkLogs)
+{
+    [BugBattle attachData: @{ @"networkLogs": networkLogs }];
 }
 
 RCT_EXPORT_METHOD(startBugReporting)

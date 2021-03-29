@@ -1,12 +1,13 @@
 import * as React from 'react';
-import { Image, StyleSheet, View } from 'react-native';
+import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import BugBattle from 'react-native-bugbattle-sdk';
 
 const bugbattleLogo = require('./bugbattleLogo.png');
 
 export default function App() {
   React.useEffect(() => {
-    BugBattle.initialize('YOUR_API_KEY', BugBattle.SHAKE);
+    BugBattle.initialize('arO906tKWMgSF1KvHVtTnDchklUZtyM8', BugBattle.SHAKE);
+    BugBattle.startNetworkLogging();
 
     // BugBattle.enableReplays(true);
     // BugBattle.setCustomerEmail("niklas@customemail.at");
@@ -19,7 +20,20 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <Image style={styles.logo} source={bugbattleLogo} resizeMode="contain" />
+      <TouchableOpacity
+        style={styles.logo}
+        onPress={() => {
+          fetch('https://www.google.com').then((data) => {
+            console.log(data);
+          });
+        }}
+      >
+        <Image
+          style={styles.logo}
+          source={bugbattleLogo}
+          resizeMode="contain"
+        />
+      </TouchableOpacity>
     </View>
   );
 }
