@@ -114,6 +114,8 @@ class BugBattleNetworkIntercepter {
               .apply(this, arguments)
               .then(function (data) {
                 return data.text().then((textData) => {
+                  console.log(textData);
+
                   data.text = function () {
                     return Promise.resolve(textData);
                   };
