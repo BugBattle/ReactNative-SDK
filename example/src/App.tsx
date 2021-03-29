@@ -9,11 +9,11 @@ export default function App() {
     BugBattle.initialize('arO906tKWMgSF1KvHVtTnDchklUZtyM8', BugBattle.SHAKE);
     BugBattle.startNetworkLogging();
 
-    // BugBattle.enableReplays(true);
-    // BugBattle.setCustomerEmail("niklas@customemail.at");
+   //BugBattle.enableReplays(true);
+   //  BugBattle.setCustomerEmail("niklas@customemail.at");
     // BugBattle.attachCustomData();
-    // BugBattle.enablePrivacyPolicy(true);
-    // BugBattle.setPrivacyPolicyUrl("MYURL.com");
+   //BugBattle.enablePrivacyPolicy(true);
+   // BugBattle.setPrivacyPolicyUrl("MYURL.com");
     // BugBattle.setApiUrl(apiUrl: string): void;
     // BugBattle.setLanguage('it');
   }, []);
