@@ -35,6 +35,9 @@ class BugBattleNetworkIntercepter {
     if (startDate) {
       this.requests[bbRequestId].duration =
         new Date().getTime() - startDate.getTime();
+      this.requests[bbRequestId].date = this.requests[
+        bbRequestId
+      ].date.toString();
     }
   }
 
@@ -59,7 +62,9 @@ class BugBattleNetworkIntercepter {
           };
         } else {
           this.requests[bbRequestId] = {
+            request: {},
             url: params[0],
+            type: 'GET',
             date: new Date(),
           };
         }
@@ -114,8 +119,6 @@ class BugBattleNetworkIntercepter {
               .apply(this, arguments)
               .then(function (data) {
                 return data.text().then((textData) => {
-                  console.log(textData);
-
                   data.text = function () {
                     return Promise.resolve(textData);
                   };
