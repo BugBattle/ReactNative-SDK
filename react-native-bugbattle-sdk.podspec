@@ -12,11 +12,9 @@ Pod::Spec.new do |s|
 
   s.platforms    = { :ios => "9.0" }
   s.source       = { :git => "https://github.com/BugBattle/ReactNative-SDK.git", :tag => "#{s.version}" }
-
   
   s.source_files = "ios/**/*.{h,m,mm}"
-  
 
   s.dependency "React"
-  s.dependency "BugBattle", ">= 3.1.6"
+  s.dependency "BugBattle", ">= 3.3.3"
 end

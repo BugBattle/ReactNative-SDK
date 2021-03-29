@@ -12,14 +12,17 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
+import com.facebook.react.modules.core.DeviceEventManagerModule;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.LinkedList;
 import java.util.List;
 
 import bugbattle.io.bugbattle.BugBattle;
-import bugbattle.io.bugbattle.CloseCallback;
+import bugbattle.io.bugbattle.BugSentCallback;
+import bugbattle.io.bugbattle.BugWillBeSentCallback;
 import bugbattle.io.bugbattle.controller.BugBattleActivationMethod;
 import bugbattle.io.bugbattle.model.APPLICATIONTYPE;
 
@@ -39,46 +42,32 @@ public class BugbattleSdkModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void initializeMany(String sdkKey, ReadableArray activationMethods) {
         try {
-            getReactApplicationContext().addLifecycleEventListener(new LifecycleEventListener() {
-                @Override
-                public void onHostResume() {
-                    BugBattle.setApplicationType(APPLICATIONTYPE.REACTNATIVE);
-                    List<BugBattleActivationMethod> activationMethodsList = new LinkedList<>();
-                    for (Object activationMethod : activationMethods.toArrayList()) {
-                        if (activationMethod.equals("SHAKE")) {
-                            activationMethodsList.add(BugBattleActivationMethod.SHAKE);
-                            BugBattle.setCloseCallback(new CloseCallback() {
-                                @Override
-                                public void close() {
-                                    new java.util.Timer().schedule(
-                                            new java.util.TimerTask() {
-                                                @Override
-                                                public void run() {
-                                                    showDevMenu();
-                                                }
-                                            },
-                                            500
-                                    );
-                                }
-                            });
-                        } else if (activationMethod.equals("SCREENSHOT")) {
-                            activationMethodsList.add(BugBattleActivationMethod.SCREENSHOT);
+            BugBattle.setApplicationType(APPLICATIONTYPE.REACTNATIVE);
+            List<BugBattleActivationMethod> activationMethodsList = new LinkedList<>();
+            for (Object activationMethod : activationMethods.toArrayList()) {
+                if (activationMethod.equals("SHAKE")) {
+                    activationMethodsList.add(BugBattleActivationMethod.SHAKE);
+                    BugBattle.setBugSentCallback(new BugSentCallback() {
+                        @Override
+                        public void close() {
+                            new java.util.Timer().schedule(
+                                    new java.util.TimerTask() {
+                                        @Override
+                                        public void run() {
+                                            showDevMenu();
+                                        }
+                                    },
+                                    500
+                            );
                         }
-                    }
-                    BugBattle.initialise(sdkKey, activationMethodsList.toArray(new BugBattleActivationMethod[activationMethodsList.size()]), getReactApplicationContext().getCurrentActivity().getApplication());
+                    });
+                } else if (activationMethod.equals("SCREENSHOT")) {
+                    activationMethodsList.add(BugBattleActivationMethod.SCREENSHOT);
                 }
+            }
+            BugBattle.initialise(sdkKey, activationMethodsList.toArray(new BugBattleActivationMethod[activationMethodsList.size()]), getReactApplicationContext().getCurrentActivity().getApplication());
 
-                @Override
-                public void onHostPause() {
-
-                }
-
-                @Override
-                public void onHostDestroy() {
-
-                }
-            });
-            }catch (Exception ex) {}
+        }catch (Exception ex) {}
     }
 
     @ReactMethod
@@ -88,11 +77,17 @@ public class BugbattleSdkModule extends ReactContextBaseJavaModule {
                 @Override
                 public void onHostResume() {
                     BugBattle.setApplicationType(APPLICATIONTYPE.REACTNATIVE);
+                    BugBattle.setBugWillBeSentCallback(new BugWillBeSentCallback() {
+                        @Override
+                        public void flowInvoced() {
+                            getReactApplicationContext().getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit("bugWillBeSent", null);
+                        }
+                    });
                     if (activationMethod.equals("SHAKE")) {
                         BugBattle.initialise(sdkKey, BugBattleActivationMethod.SHAKE, getReactApplicationContext()
                                 .getCurrentActivity()
                                 .getApplication());
-                        BugBattle.setCloseCallback(new CloseCallback() {
+                        BugBattle.setBugSentCallback(new BugSentCallback() {
                             @Override
                             public void close() {
                                 new java.util.Timer().schedule(
@@ -159,14 +154,14 @@ public class BugbattleSdkModule extends ReactContextBaseJavaModule {
     public void startBugReporting() {
         try {
 
-            BugBattle.setCloseCallback(new CloseCallback() {
+            BugBattle.setBugSentCallback(new BugSentCallback() {
                 @Override
                 public void close() {
                     //Dont open dev menu
                 }
             });
             BugBattle.startBugReporting();
-            BugBattle.setCloseCallback(new CloseCallback() {
+            BugBattle.setBugSentCallback(new BugSentCallback() {
                 @Override
                 public void close() {
                     new java.util.Timer().schedule(
@@ -193,12 +188,12 @@ public class BugbattleSdkModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void attachCustomData(JSONObject jsonObject) {
-        try {
+    public void attachCustomData(ReadableMap jsonObject) {
+ /*      try {
             BugBattle.attachCustomData(jsonObject);
         } catch (Exception e) {
             System.out.println(e);
-        }
+        }*/
     }
 
     @ReactMethod
@@ -217,7 +212,7 @@ public class BugbattleSdkModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void setApiURL(String apiUrl) {
+    public void setApiUrl(String apiUrl) {
         try {
             BugBattle.setApiURL(apiUrl);
         } catch (Exception e) {
@@ -228,7 +223,12 @@ public class BugbattleSdkModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void enableReplays(boolean enable) {
         if (enable) {
-            BugBattle.enableReplay();
+            try {
+                Thread.sleep(1000);
+                BugBattle.enableReplay();
+            }catch (Exception ex) {
+
+            }
         }
     }
 
@@ -236,4 +236,20 @@ public class BugbattleSdkModule extends ReactContextBaseJavaModule {
     public void setLanguage(String language) {
         BugBattle.setLanguage(language);
     }
+
+    @ReactMethod
+    public void attachNetworkLog(String networkLog) {
+        System.out.println(networkLog);
+        try {
+            JSONArray object = new JSONArray(networkLog);
+            System.out.println(object);
+            JSONObject networkObj = new JSONObject();
+            networkObj.put("networkLogs", object);
+            BugBattle.attachData(networkObj);
+        }catch (Exception ex) {
+            System.out.println(ex);
+        }
+        //BugBattle.attachData(jsonObject);
+    }
+
 }
