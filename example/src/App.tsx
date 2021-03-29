@@ -10,11 +10,11 @@ export default function App() {
     BugBattle.startNetworkLogging();
     BugBattle.setApiUrl('http://0.0.0.0:9000');
 
-   //BugBattle.enableReplays(true);
-   //  BugBattle.setCustomerEmail("niklas@customemail.at");
+    //BugBattle.enableReplays(true);
+    //BugBattle.setCustomerEmail("niklas@customemail.at");
     // BugBattle.attachCustomData();
-   //BugBattle.enablePrivacyPolicy(true);
-   // BugBattle.setPrivacyPolicyUrl("MYURL.com");
+    //BugBattle.enablePrivacyPolicy(true);
+    // BugBattle.setPrivacyPolicyUrl("MYURL.com");
     // BugBattle.setApiUrl(apiUrl: string): void;
     // BugBattle.setLanguage('it');
   }, []);

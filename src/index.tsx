@@ -41,15 +41,15 @@ if (BugbattleSdk) {
     networkLogger.setStopped(true);
   };
 
- // const bugBattleEmitter = new NativeEventEmitter(BugbattleSdk);
-  // bugBattleEmitter.addListener('bugWillBeSent', () => {
-  //   // Push the network log to the native SDK.
-  //   if (Platform.OS === 'android') {
-  //     BugbattleSdk.attachNetworkLog(JSON.stringify(networkLogger.getRequests()));
-  //   } else {
-  //     BugbattleSdk.attachNetworkLog(networkLogger.getRequests());
-  //   }
-  // });
+  const bugBattleEmitter = new NativeEventEmitter(BugbattleSdk);
+  bugBattleEmitter.addListener('bugWillBeSent', () => {
+    // Push the network log to the native SDK.
+    if (Platform.OS === 'android') {
+      BugbattleSdk.attachNetworkLog(JSON.stringify(networkLogger.getRequests()));
+    } else {
+      BugbattleSdk.attachNetworkLog(networkLogger.getRequests());
+    }
+  });
 }
 
 export default BugbattleSdk as BugbattleSdkType;
