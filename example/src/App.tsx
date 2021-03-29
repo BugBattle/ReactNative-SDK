@@ -8,6 +8,7 @@ export default function App() {
   React.useEffect(() => {
     BugBattle.initialize('arO906tKWMgSF1KvHVtTnDchklUZtyM8', BugBattle.SHAKE);
     BugBattle.startNetworkLogging();
+    BugBattle.setApiUrl('http://0.0.0.0:9000');
 
    //BugBattle.enableReplays(true);
    //  BugBattle.setCustomerEmail("niklas@customemail.at");
@@ -21,10 +22,14 @@ export default function App() {
   return (
     <View style={styles.container}>
       <TouchableOpacity
-        style={styles.logo}
+        style={styles.buttonContainer}
         onPress={() => {
-          fetch('https://www.google.com').then((data) => {
-            console.log(data);
+          fetch(
+            'https://run.mocky.io/v3/4ce4f0ac-4cbd-4ef7-93fc-5a5726e3a147'
+          ).then((data) => {
+            data.text().then((dataText) => {
+              console.log(dataText);
+            });
           });
         }}
       >
@@ -44,6 +49,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#70B9DA',
+  },
+  buttonContainer: {
+    width: '100%',
+    height: 100,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   logo: {
     width: '65%',
