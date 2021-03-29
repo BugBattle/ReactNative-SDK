@@ -7,9 +7,8 @@ const bugbattleLogo = require('./bugbattleLogo.png');
 export default function App() {
   React.useEffect(() => {
     BugBattle.initialize('arO906tKWMgSF1KvHVtTnDchklUZtyM8', BugBattle.SHAKE);
-    BugBattle.startNetworkLogging();
-    // BugBattle.setApiUrl('http://0.0.0.0:9000');
 
+    // BugBattle.startNetworkLogging();
     // BugBattle.enableReplays(true);
     // BugBattle.setCustomerEmail("niklas@customemail.at");
     // BugBattle.attachCustomData();
