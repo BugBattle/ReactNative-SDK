@@ -42,7 +42,8 @@ public class BugbattleSdkModule extends ReactContextBaseJavaModule {
     /**
      * Initialize Bugbattle with SDK Key and Activation Methode
      * For more information see https://docs.bugbattle.io
-     * @param sdkKey sdk key from your project
+     *
+     * @param sdkKey            sdk key from your project
      * @param activationMethods e.g. SHAKE
      */
     @ReactMethod
@@ -72,7 +73,7 @@ public class BugbattleSdkModule extends ReactContextBaseJavaModule {
                 }
             }
             Activity activity = getReactApplicationContext().getCurrentActivity();
-            if(activity != null ) {
+            if (activity != null) {
                 BugBattle.initialise(sdkKey, activationMethodsList.toArray(new BugBattleActivationMethod[activationMethodsList.size()]), activity.getApplication());
             }
 
@@ -83,12 +84,12 @@ public class BugbattleSdkModule extends ReactContextBaseJavaModule {
     /**
      * Initialize Bugbattle with SDK Key and Activation Methode
      * For more information see https://docs.bugbattle.io
-     * @param sdkKey sdk key from your project
+     *
+     * @param sdkKey           sdk key from your project
      * @param activationMethod e.g. SHAKE
      */
     @ReactMethod
     public void initialize(String sdkKey, String activationMethod) {
-        System.out.println("HEY DU");
         try {
             getReactApplicationContext().addLifecycleEventListener(new LifecycleEventListener() {
                 @Override
@@ -206,6 +207,7 @@ public class BugbattleSdkModule extends ReactContextBaseJavaModule {
 
     /**
      * Start bug report with a custom image.
+     *
      * @param base64 Base64 encoded image
      */
     @ReactMethod
@@ -217,6 +219,7 @@ public class BugbattleSdkModule extends ReactContextBaseJavaModule {
 
     /**
      * Not implemented for now on Android
+     *
      * @param jsonObject
      */
     @ReactMethod
@@ -230,6 +233,7 @@ public class BugbattleSdkModule extends ReactContextBaseJavaModule {
 
     /**
      * Set default email address filled in the send dialog.
+     *
      * @param email email you want to be set
      */
     @ReactMethod
@@ -240,6 +244,7 @@ public class BugbattleSdkModule extends ReactContextBaseJavaModule {
     /**
      * Enable privacy policies shown in the send dialog. The policies url can be
      * edited with {@methode setPrivacyPolicyUrl}
+     *
      * @param enable if the value is true the privacy policies must be accepted by the user
      */
     @ReactMethod
@@ -250,6 +255,7 @@ public class BugbattleSdkModule extends ReactContextBaseJavaModule {
     /**
      * Customize the url shown when clicked on the link. Highly recommended to add this url,
      * when {@methode enablePrivacyPolicy} is set to true;
+     *
      * @param privacyUrl URL to your privacy policies
      */
     @ReactMethod
@@ -259,6 +265,7 @@ public class BugbattleSdkModule extends ReactContextBaseJavaModule {
 
     /**
      * Used for dedicated server. Set the url, where bugs are reported to.
+     *
      * @param apiUrl Url to the dedicated server.
      */
     @ReactMethod
@@ -273,6 +280,7 @@ public class BugbattleSdkModule extends ReactContextBaseJavaModule {
     /**
      * Enable Replay function. Can be set to true, but is only available in certain plans.
      * Please check https://www.bugbattle.io/pricing/
+     *
      * @param enable enable replay function
      */
     @ReactMethod
@@ -288,10 +296,11 @@ public class BugbattleSdkModule extends ReactContextBaseJavaModule {
     }
 
     /**
-     * Set language of the bugbattle dialog. Available languages are "en", "fr", "de", "it". You
+     * Set language of the bugbattle dialog. Available languages are "en", "fr", "de", "it", "nl". You
      * can override in the strings.xml and use your own language. For more informations see:
      * https://developer.android.com/training/basics/supporting-devices/languages
-     * @param language available are "en", "fr", "de", "it"
+     *
+     * @param language available are "en", "fr", "de", "it", "nl"
      */
     @ReactMethod
     public void setLanguage(String language) {
@@ -300,6 +309,7 @@ public class BugbattleSdkModule extends ReactContextBaseJavaModule {
 
     /**
      * Add network data to bugbattle.
+     *
      * @param networkLog network log
      */
     @ReactMethod
@@ -313,6 +323,25 @@ public class BugbattleSdkModule extends ReactContextBaseJavaModule {
         } catch (Exception ex) {
             System.out.println(ex);
         }
+    }
+
+    /**
+     * Manually start a silent bug reporting workflow.
+     */
+    @ReactMethod
+    public void sendSilentBugReport(
+            String senderEmail,
+            String description,
+            String priority
+    ) {
+        BugBattle.SEVERITY severity = BugBattle.SEVERITY.LOW;
+        if (priority == "MEDIUM") {
+            severity = BugBattle.SEVERITY.MIDDLE;
+        }
+        if (priority == "HIGH") {
+            severity = BugBattle.SEVERITY.HIGH;
+        }
+        BugBattle.sendSilentBugReport(senderEmail, description, severity);
     }
 
 }
