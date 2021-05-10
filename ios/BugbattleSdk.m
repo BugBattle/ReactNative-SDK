@@ -133,6 +133,18 @@ RCT_EXPORT_METHOD(initializeMany:(NSString *)token andActivationMethods:(NSArray
     return @[@"bugWillBeSent"];
 }
 
+RCT_EXPORT_METHOD(sendSilentBugReport:(NSString *)senderEmail andDescription:(NSString *)description andPriority:(NSString *)priority)
+{
+    BugBattleBugPriority prio = MEDIUM;
+    if ([priority isEqualToString: @"LOW"]) {
+        prio = LOW;
+    }
+    if ([priority isEqualToString: @"HIGH"]) {
+        prio = HIGH;
+    }
+    [BugBattle sendSilentBugReportWith: senderEmail andDescription: description andPriority: prio];
+}
+
 RCT_EXPORT_METHOD(attachNetworkLog:(NSArray *)networkLogs)
 {
     [BugBattle attachData: @{ @"networkLogs": networkLogs }];

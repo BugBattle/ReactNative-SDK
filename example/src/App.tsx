@@ -6,7 +6,7 @@ const bugbattleLogo = require('./bugbattleLogo.png');
 
 export default function App() {
   React.useEffect(() => {
-    BugBattle.initialize('arO906tKWMgSF1KvHVtTnDchklUZtyM8', BugBattle.SHAKE);
+    BugBattle.initialize('J4ADFNfzzCdYWr8NBO4rozcb6NFeyyES', BugBattle.SHAKE);
 
     // BugBattle.startNetworkLogging();
     // BugBattle.enableReplays(true);
@@ -16,6 +16,7 @@ export default function App() {
     // BugBattle.setPrivacyPolicyUrl("MYURL.com");
     // BugBattle.setApiUrl(apiUrl: string): void;
     // BugBattle.setLanguage('it');
+    // BugBattle.sendSilentBugReport('hello@bugbattle.io', 'Awesome bug description.', 'LOW');
   }, []);
 
   return (

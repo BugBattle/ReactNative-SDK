@@ -19,6 +19,11 @@ type BugbattleSdkType = {
   attachCustomData(customData: any): void;
   enablePrivacyPolicy(enable: boolean): void;
   enableReplays(enable: boolean): void;
+  sendSilentBugReport(
+    senderEmail: string,
+    description: string,
+    priority: 'LOW' | 'MEDIUM' | 'HIGH'
+  ): void;
   setPrivacyPolicyUrl(privacyUrl: string): void;
   setApiUrl(apiUrl: string): void;
   setLanguage(language: string): void;
@@ -45,7 +50,9 @@ if (BugbattleSdk) {
   bugBattleEmitter.addListener('bugWillBeSent', () => {
     // Push the network log to the native SDK.
     if (Platform.OS === 'android') {
-      BugbattleSdk.attachNetworkLog(JSON.stringify(networkLogger.getRequests()));
+      BugbattleSdk.attachNetworkLog(
+        JSON.stringify(networkLogger.getRequests())
+      );
     } else {
       BugbattleSdk.attachNetworkLog(networkLogger.getRequests());
     }

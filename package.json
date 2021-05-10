@@ -1,6 +1,6 @@
 {
   "name": "react-native-bugbattle-sdk",
-  "version": "3.3.5",
+  "version": "3.3.6",
   "description": "In-App Bug Reporting and Testing for Apps. Learn more at https://www.bugbattle.io",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -36,7 +36,7 @@
   ],
   "repository": "https://github.com/BugBattle/ReactNative-SDK",
   "author": "Bugbattle <hello@bugbattle.io> (https://github.com/BugBattle)",
-  "license": "Commercial",
+  "license": "SEE LICENSE IN LICENSE",
   "licenseFilename": "LICENSE",
   "bugs": {
     "url": "https://github.com/BugBattle/ReactNative-SDK/issues"
@@ -120,7 +120,10 @@
       ]
     }
   },
-  "eslintIgnore": ["node_modules/", "lib/"],
+  "eslintIgnore": [
+    "node_modules/",
+    "lib/"
+  ],
   "prettier": {
     "quoteProps": "consistent",
     "singleQuote": true,
@@ -131,6 +134,10 @@
   "@react-native-community/bob": {
     "source": "src",
     "output": "lib",
-    "targets": ["commonjs", "module", "typescript"]
+    "targets": [
+      "commonjs",
+      "module",
+      "typescript"
+    ]
   }
 }
