@@ -6,17 +6,11 @@ const bugbattleLogo = require('./bugbattleLogo.png');
 
 export default function App() {
   React.useEffect(() => {
-    BugBattle.initialize('J4ADFNfzzCdYWr8NBO4rozcb6NFeyyES', BugBattle.SHAKE);
+    BugBattle.autoConfigure('RBDUcj6fjRvei1UobaHRWhELU0GWSBT7');
 
-    // BugBattle.startNetworkLogging();
-    // BugBattle.enableReplays(true);
-    // BugBattle.setCustomerEmail("niklas@customemail.at");
-    // BugBattle.attachCustomData();
-    // BugBattle.enablePrivacyPolicy(true);
-    // BugBattle.setPrivacyPolicyUrl("MYURL.com");
-    // BugBattle.setApiUrl(apiUrl: string): void;
-    // BugBattle.setLanguage('it');
-    // BugBattle.sendSilentBugReport('hello@bugbattle.io', 'Awesome bug description.', 'LOW');
+    BugBattle.setCustomData('no', 'asdf');
+    BugBattle.setCustomData('email', 'luki@asdf.de');
+    BugBattle.removeCustomData('no');
   }, []);
 
   return (
@@ -29,6 +23,12 @@ export default function App() {
           ).then((data) => {
             data.text().then((dataText) => {
               console.log(dataText);
+
+              BugBattle.sendSilentBugReport(
+                'hello@bugbattle.io',
+                'Awesome bug description.',
+                'LOW'
+              );
             });
           });
         }}

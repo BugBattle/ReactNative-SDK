@@ -14,9 +14,13 @@ type BugbattleSdkType = {
     key: string,
     activationMethods: ('NONE' | 'SHAKE' | 'SCREENSHOT')[]
   ): void;
+  autoConfigure(token: string): void;
   startBugReporting(): void;
   setCustomerEmail(email: string): void;
   attachCustomData(customData: any): void;
+  setCustomData(key: string, value: string): void;
+  removeCustomData(key: string): void;
+  clearCustomData(): void;
   enablePrivacyPolicy(enable: boolean): void;
   enableReplays(enable: boolean): void;
   sendSilentBugReport(
@@ -28,6 +32,7 @@ type BugbattleSdkType = {
   setApiUrl(apiUrl: string): void;
   setLanguage(language: string): void;
   startNetworkLogging(): void;
+  setColor(hexColor: string): void;
 };
 
 const { BugbattleSdk } = NativeModules;
@@ -44,6 +49,47 @@ if (BugbattleSdk) {
 
   BugbattleSdk.stopNetworkLogging = () => {
     networkLogger.setStopped(true);
+  };
+
+  BugbattleSdk.autoConfigure = (token: string) => {
+    fetch(`https://widget.bugbattle.io/appwidget/${token}/config?s=reactnative`)
+      .then((response) => response.json())
+      .then((config) => {
+        if (typeof config.color !== 'undefined' && config.color.length > 0) {
+          BugbattleSdk.setColor(config.color);
+        }
+
+        if (
+          typeof config.enableNetworkLogs !== 'undefined' &&
+          config.enableNetworkLogs === true
+        ) {
+          BugbattleSdk.startNetworkLogging();
+        }
+
+        if (typeof config.enableReplays !== 'undefined') {
+          BugbattleSdk.enableReplays(config.enableReplays);
+        }
+
+        var activationMethods = [];
+
+        if (
+          typeof config.activationMethodShake !== 'undefined' &&
+          config.activationMethodShake === true
+        ) {
+          activationMethods.push(BugbattleSdk.SHAKE);
+        }
+        if (
+          typeof config.activationMethodScreenshotGesture !== 'undefined' &&
+          config.activationMethodScreenshotGesture === true
+        ) {
+          activationMethods.push(BugbattleSdk.SCREENSHOT);
+        }
+
+        BugbattleSdk.initializeMany(token, activationMethods);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   const bugBattleEmitter = new NativeEventEmitter(BugbattleSdk);

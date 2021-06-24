@@ -33,6 +33,11 @@ RCT_EXPORT_MODULE()
   return dispatch_get_main_queue();
 }
 
+- (void)initSDK {
+    BugBattle.sharedInstance.delegate = self;
+    [BugBattle setApplicationType: REACTNATIVE];
+}
+
 RCT_EXPORT_METHOD(initialize:(NSString *)token andActivationMethod:(NSString *)activationMethod)
 {
     // Initialize the SDK
@@ -57,7 +62,7 @@ RCT_EXPORT_METHOD(initialize:(NSString *)token andActivationMethod:(NSString *)a
         [self initializeGestureRecognizer];
     }
     
-    BugBattle.sharedInstance.delegate = self;
+    [self initSDK];
 }
 
 RCT_EXPORT_METHOD(initializeMany:(NSString *)token andActivationMethods:(NSArray *)activationMethods)
@@ -83,6 +88,8 @@ RCT_EXPORT_METHOD(initializeMany:(NSString *)token andActivationMethods:(NSArray
     if ([self activationMethods: activationMethods contain: @"THREE_FINGER_DOUBLE_TAB"]) {
         [self initializeGestureRecognizer];
     }
+
+    [self initSDK];
 }
 
 - (BOOL)activationMethods: (NSArray *)activationMethods contain: (NSString *)activationMethod {
@@ -129,6 +136,14 @@ RCT_EXPORT_METHOD(initializeMany:(NSString *)token andActivationMethods:(NSArray
   _hasListeners = NO;
 }
 
+-(UIColor *)colorFromHexString:(NSString *)hexString {
+    unsigned rgbValue = 0;
+    NSScanner *scanner = [NSScanner scannerWithString:hexString];
+    [scanner setScanLocation:1];
+    [scanner scanHexInt:&rgbValue];
+    return [UIColor colorWithRed:((rgbValue & 0xFF0000) >> 16)/255.0 green:((rgbValue & 0xFF00) >> 8)/255.0 blue:(rgbValue & 0xFF)/255.0 alpha:1.0];
+}
+
 - (NSArray<NSString *> *)supportedEvents {
     return @[@"bugWillBeSent"];
 }
@@ -155,6 +170,11 @@ RCT_EXPORT_METHOD(startBugReporting)
     [BugBattle startBugReporting];
 }
 
+RCT_EXPORT_METHOD(setColor:(NSString *)hexColor)
+{
+    UIColor * color = [self colorFromHexString: hexColor];
+    [BugBattle setNavigationTint: color];
+}
 RCT_EXPORT_METHOD(setLanguage:(NSString *)language)
 {
     [BugBattle setLanguage: language];
@@ -168,6 +188,21 @@ RCT_EXPORT_METHOD(setCustomerEmail:(NSString *)email)
 RCT_EXPORT_METHOD(attachCustomData:(NSDictionary *)customData)
 {
     [BugBattle attachCustomData: customData];
+}
+
+RCT_EXPORT_METHOD(setCustomData:(NSString *)key andData:(NSString *)value)
+{
+    [BugBattle setCustomData: value forKey: key];
+}
+
+RCT_EXPORT_METHOD(removeCustomData:(NSString *)key)
+{
+    [BugBattle removeCustomDataForKey: key];
+}
+
+RCT_EXPORT_METHOD(clearCustomData)
+{
+    [BugBattle clearCustomData];
 }
 
 RCT_EXPORT_METHOD(enablePrivacyPolicy:(BOOL)enable)
