@@ -126,6 +126,14 @@ RCT_EXPORT_METHOD(initializeMany:(NSString *)token andActivationMethods:(NSArray
     }
 }
 
+- (void)customActionCalled:(NSString *)customAction {
+    if (_hasListeners) {
+        [self sendEventWithName:@"customActionTriggered" body:@{
+            @"name": customAction
+        }];
+    }
+}
+
 - (void)startObserving
 {
   _hasListeners = YES;
@@ -145,7 +153,7 @@ RCT_EXPORT_METHOD(initializeMany:(NSString *)token andActivationMethods:(NSArray
 }
 
 - (NSArray<NSString *> *)supportedEvents {
-    return @[@"bugWillBeSent"];
+    return @[@"bugWillBeSent", @"customActionTriggered"];
 }
 
 RCT_EXPORT_METHOD(sendSilentBugReport:(NSString *)senderEmail andDescription:(NSString *)description andPriority:(NSString *)priority)

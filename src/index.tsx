@@ -33,6 +33,9 @@ type BugbattleSdkType = {
   setLanguage(language: string): void;
   startNetworkLogging(): void;
   setColor(hexColor: string): void;
+  registerCustomAction(
+    customActionCallback: (data: { name: string }) => void
+  ): void;
 };
 
 const { BugbattleSdk } = NativeModules;
@@ -92,6 +95,10 @@ if (BugbattleSdk) {
       });
   };
 
+  var callbacks: any[] = [];
+  BugbattleSdk.registerCustomAction = (customActionCallback: any) => {
+    callbacks.push(customActionCallback);
+  };
   const bugBattleEmitter = new NativeEventEmitter(BugbattleSdk);
   bugBattleEmitter.addListener('bugWillBeSent', () => {
     // Push the network log to the native SDK.
@@ -101,6 +108,18 @@ if (BugbattleSdk) {
       );
     } else {
       BugbattleSdk.attachNetworkLog(networkLogger.getRequests());
+    }
+  });
+  bugBattleEmitter.addListener('customActionTriggered', (data) => {
+    const { name } = data;
+    if (name && callbacks.length > 0) {
+      for (var i = 0; i < callbacks.length; i++) {
+        if (callbacks[i]) {
+          callbacks[i]({
+            name,
+          });
+        }
+      }
     }
   });
 }
