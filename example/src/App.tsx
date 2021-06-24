@@ -11,6 +11,10 @@ export default function App() {
     BugBattle.setCustomData('no', 'asdf');
     BugBattle.setCustomData('email', 'luki@asdf.de');
     BugBattle.removeCustomData('no');
+
+    BugBattle.registerCustomAction((data) => {
+      console.log(data.name);
+    });
   }, []);
 
   return (
