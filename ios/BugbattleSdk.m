@@ -181,7 +181,7 @@ RCT_EXPORT_METHOD(startBugReporting)
 RCT_EXPORT_METHOD(setColor:(NSString *)hexColor)
 {
     UIColor * color = [self colorFromHexString: hexColor];
-    [BugBattle setNavigationTint: color];
+    [BugBattle setColor: color];
 }
 RCT_EXPORT_METHOD(setLanguage:(NSString *)language)
 {
