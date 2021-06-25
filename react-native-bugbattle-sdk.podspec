@@ -16,5 +16,5 @@ Pod::Spec.new do |s|
   s.source_files = "ios/**/*.{h,m,mm}"
 
   s.dependency "React"
-  s.dependency "BugBattle", ">= 4.0.2"
+  s.dependency "BugBattle", ">= 4.0.3"
 end
