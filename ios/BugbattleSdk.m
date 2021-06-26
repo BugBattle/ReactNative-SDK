@@ -181,7 +181,7 @@ RCT_EXPORT_METHOD(startBugReporting)
 RCT_EXPORT_METHOD(setColor:(NSString *)hexColor)
 {
     UIColor * color = [self colorFromHexString: hexColor];
-    [BugBattle setNavigationTint: color];
+    [BugBattle setColor: color];
 }
 RCT_EXPORT_METHOD(setLanguage:(NSString *)language)
 {
@@ -206,6 +206,16 @@ RCT_EXPORT_METHOD(setCustomData:(NSString *)key andData:(NSString *)value)
 RCT_EXPORT_METHOD(removeCustomData:(NSString *)key)
 {
     [BugBattle removeCustomDataForKey: key];
+}
+
+RCT_EXPORT_METHOD(setLogoUrl:(NSString *)key)
+{
+    [BugBattle setLogoUrl: key];
+}
+
+RCT_EXPORT_METHOD(enablePoweredByBugbattle:(BOOL)enable)
+{
+    [BugBattle enablePoweredByBugbattle: enable];
 }
 
 RCT_EXPORT_METHOD(clearCustomData)

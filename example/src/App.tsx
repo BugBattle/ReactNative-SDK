@@ -6,7 +6,7 @@ const bugbattleLogo = require('./bugbattleLogo.png');
 
 export default function App() {
   React.useEffect(() => {
-    BugBattle.autoConfigure('RBDUcj6fjRvei1UobaHRWhELU0GWSBT7');
+    BugBattle.autoConfigure('Pmfd2McYxGmAvpscR6tfLHnxyOaduwVo');
 
     BugBattle.setCustomData('no', 'asdf');
     BugBattle.setCustomData('email', 'luki@asdf.de');
