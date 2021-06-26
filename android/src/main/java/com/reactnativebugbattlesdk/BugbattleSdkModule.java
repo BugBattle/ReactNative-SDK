@@ -67,6 +67,12 @@ public class BugbattleSdkModule extends ReactContextBaseJavaModule {
                 getReactApplicationContext().getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit("customActionTriggered", obj.toString());
             }
         });
+        BugBattle.getInstance().setBugWillBeSentCallback(new BugWillBeSentCallback() {
+            @Override
+            public void flowInvoced() {
+                getReactApplicationContext().getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit("bugWillBeSent", null);
+            }
+        });
         try {
             BugBattle.getInstance().setApplicationType(APPLICATIONTYPE.REACTNATIVE);
             List<BugBattleActivationMethod> activationMethodsList = new LinkedList<>();
