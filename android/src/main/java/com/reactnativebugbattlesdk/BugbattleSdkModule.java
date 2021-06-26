@@ -437,11 +437,11 @@ public class BugbattleSdkModule extends ReactContextBaseJavaModule {
      * Enables or disables the powered by Bugbattle logo.
      * @author BugBattle
      *
-     * @param enabled Enablesor disable the powered by Bugbattle logo.
+     * @param enable Enable or disable the powered by Bugbattle logo.
      */
     @ReactMethod
-    public void enablePoweredByBugbattle(boolean enabled) {
-        BugBattle.getInstance().enablePoweredByBugbattle(enabled);
+    public void enablePoweredByBugbattle(boolean enable) {
+        BugBattle.getInstance().enablePoweredByBugbattle(enable);
     }
 
     /**
