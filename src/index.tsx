@@ -100,8 +100,8 @@ if (BugbattleSdk) {
 
         BugbattleSdk.initializeMany(token, activationMethods);
       })
-      .catch((error) => {
-        console.error(error);
+      .catch(() => {
+        console.warn('Bugbattle: Your SDK key is invalid.');
       });
   };
 
