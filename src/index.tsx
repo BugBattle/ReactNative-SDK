@@ -33,6 +33,8 @@ type BugbattleSdkType = {
   setLanguage(language: string): void;
   startNetworkLogging(): void;
   setColor(hexColor: string): void;
+  enablePoweredByBugbattle(bool: string): void;
+  setLogoUrl(logoUrl: string): void;
   registerCustomAction(
     customActionCallback: (data: { name: string }) => void
   ): void;
@@ -60,6 +62,14 @@ if (BugbattleSdk) {
       .then((config) => {
         if (typeof config.color !== 'undefined' && config.color.length > 0) {
           BugbattleSdk.setColor(config.color);
+        }
+
+        if (typeof config.hideBugBattleLogo !== 'undefined') {
+          BugbattleSdk.enablePoweredByBugbattle(config.hideBugBattleLogo);
+        }
+
+        if (typeof config.logo !== 'undefined' && config.logo.length > 0) {
+          BugbattleSdk.setLogoUrl(config.logo);
         }
 
         if (

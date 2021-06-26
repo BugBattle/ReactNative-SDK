@@ -208,6 +208,16 @@ RCT_EXPORT_METHOD(removeCustomData:(NSString *)key)
     [BugBattle removeCustomDataForKey: key];
 }
 
+RCT_EXPORT_METHOD(setLogoUrl:(NSString *)key)
+{
+    [BugBattle setLogoUrl: key];
+}
+
+RCT_EXPORT_METHOD(enablePoweredByBugbattle:(BOOL)enable)
+{
+    [BugBattle enablePoweredByBugbattle: enable];
+}
+
 RCT_EXPORT_METHOD(clearCustomData)
 {
     [BugBattle clearCustomData];
