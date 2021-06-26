@@ -34,7 +34,7 @@ import bugbattle.io.bugbattle.CustomActionCallback;
 import bugbattle.io.bugbattle.RequestType;
 
 public class BugbattleSdkModule extends ReactContextBaseJavaModule {
-
+    private boolean isSilentBugReport = false;
 
     public BugbattleSdkModule(ReactApplicationContext reactContext) {
         super(reactContext);
@@ -80,7 +80,10 @@ public class BugbattleSdkModule extends ReactContextBaseJavaModule {
                                     new java.util.TimerTask() {
                                         @Override
                                         public void run() {
-                                            showDevMenu();
+                                            if(!isSilentBugReport) {
+                                                showDevMenu();
+                                            }
+                                            isSilentBugReport = false;
                                         }
                                     },
                                     500
@@ -244,6 +247,7 @@ public class BugbattleSdkModule extends ReactContextBaseJavaModule {
             String description,
             String priority
     ) {
+        isSilentBugReport = true;
         BugBattle.SEVERITY severity = BugBattle.SEVERITY.LOW;
         if (priority == "MEDIUM") {
             severity = BugBattle.SEVERITY.MIDDLE;
