@@ -33,7 +33,7 @@ type BugbattleSdkType = {
   setLanguage(language: string): void;
   startNetworkLogging(): void;
   setColor(hexColor: string): void;
-  enablePoweredByBugbattle(bool: string): void;
+  enablePoweredByBugbattle(enable: boolean): void;
   setLogoUrl(logoUrl: string): void;
   registerCustomAction(
     customActionCallback: (data: { name: string }) => void
