@@ -121,6 +121,9 @@ if (BugbattleSdk) {
     }
   });
   bugBattleEmitter.addListener('customActionTriggered', (data) => {
+    if(isJsonString(data)) {
+      data = JSON.parse(data);
+    }
     const { name } = data;
     if (name && callbacks.length > 0) {
       for (var i = 0; i < callbacks.length; i++) {
@@ -132,6 +135,15 @@ if (BugbattleSdk) {
       }
     }
   });
+}
+
+function isJsonString(str: string) {
+  try {
+      JSON.parse(str);
+  } catch (e) {
+      return false;
+  }
+  return true;
 }
 
 export default BugbattleSdk as BugbattleSdkType;
