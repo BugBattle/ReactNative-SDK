@@ -86,7 +86,7 @@ public class BugbattleSdkModule extends ReactContextBaseJavaModule {
                                     new java.util.TimerTask() {
                                         @Override
                                         public void run() {
-                                            if(!isSilentBugReport) {
+                                            if (!isSilentBugReport) {
                                                 showDevMenu();
                                             }
                                             isSilentBugReport = false;
@@ -119,61 +119,41 @@ public class BugbattleSdkModule extends ReactContextBaseJavaModule {
      */
     @ReactMethod
     public void initialize(String sdkKey, String activationMethod) {
-        try {
-            getReactApplicationContext().addLifecycleEventListener(new LifecycleEventListener() {
-                @Override
-                public void onHostResume() {
-                    try {
-                        Activity activity = getReactApplicationContext()
-                                .getCurrentActivity();
-                        if (activity != null) {
-                            BugBattle.getInstance().setApplicationType(APPLICATIONTYPE.REACTNATIVE);
-                            BugBattle.getInstance().setBugWillBeSentCallback(new BugWillBeSentCallback() {
-                                @Override
-                                public void flowInvoced() {
-                                    getReactApplicationContext().getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit("bugWillBeSent", null);
-                                }
-                            });
-                            if (activationMethod.equals("SHAKE")) {
-                                BugBattle.initWithToken(sdkKey, BugBattleActivationMethod.SHAKE, activity.getApplication());
-                                BugBattle.getInstance().setBugSentCallback(new BugSentCallback() {
-                                    @Override
-                                    public void close() {
-                                        new java.util.Timer().schedule(
-                                                new java.util.TimerTask() {
-                                                    @Override
-                                                    public void run() {
-                                                        showDevMenu();
-                                                    }
-                                                },
-                                                500
-                                        );
-                                    }
-                                });
-                            } else if (activationMethod.equals("SCREENSHOT")) {
-                                BugBattle.initWithToken(sdkKey, BugBattleActivationMethod.SCREENSHOT, activity.getApplication());
-                            } else {
-                                BugBattle.initWithToken(sdkKey, BugBattleActivationMethod.NONE, activity.getApplication());
-                            }
+            try {
+                Activity activity = getReactApplicationContext()
+                        .getCurrentActivity();
+                if (activity != null) {
+                    BugBattle.getInstance().setApplicationType(APPLICATIONTYPE.REACTNATIVE);
+                    BugBattle.getInstance().setBugWillBeSentCallback(new BugWillBeSentCallback() {
+                        @Override
+                        public void flowInvoced() {
+                            getReactApplicationContext().getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit("bugWillBeSent", null);
                         }
-                    } catch (Exception ex) {
+                    });
+                    if (activationMethod.equals("SHAKE")) {
+                        BugBattle.initWithToken(sdkKey, BugBattleActivationMethod.SHAKE, activity.getApplication());
+                        BugBattle.getInstance().setBugSentCallback(new BugSentCallback() {
+                            @Override
+                            public void close() {
+                                new java.util.Timer().schedule(
+                                        new java.util.TimerTask() {
+                                            @Override
+                                            public void run() {
+                                                showDevMenu();
+                                            }
+                                        },
+                                        500
+                                );
+                            }
+                        });
+                    } else if (activationMethod.equals("SCREENSHOT")) {
+                        BugBattle.initWithToken(sdkKey, BugBattleActivationMethod.SCREENSHOT, activity.getApplication());
+                    } else {
+                        BugBattle.initWithToken(sdkKey, BugBattleActivationMethod.NONE, activity.getApplication());
                     }
                 }
-
-                @Override
-                public void onHostPause() {
-
-                }
-
-                @Override
-                public void onHostDestroy() {
-
-                }
-            });
-
-        } catch (Exception err) {
-
-        }
+            } catch (Exception ex) {
+            }
     }
 
     /**
@@ -435,9 +415,9 @@ public class BugbattleSdkModule extends ReactContextBaseJavaModule {
 
     /**
      * Enables or disables the powered by Bugbattle logo.
-     * @author BugBattle
      *
      * @param enable Enable or disable the powered by Bugbattle logo.
+     * @author BugBattle
      */
     @ReactMethod
     public void enablePoweredByBugbattle(boolean enable) {
@@ -446,12 +426,12 @@ public class BugbattleSdkModule extends ReactContextBaseJavaModule {
 
     /**
      * Sets the main logo url.
-     * @author BugBattle
      *
      * @param logoUrl The main logo url.
+     * @author BugBattle
      */
     @ReactMethod
-    public  void setLogoUrl(String logoUrl){
+    public void setLogoUrl(String logoUrl) {
         BugBattle.getInstance().setLogoUrl(logoUrl);
     }
 

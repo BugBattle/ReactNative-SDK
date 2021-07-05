@@ -1622,6 +1622,9 @@ string abc_toolbar_collapse_description
 string alert_description
 string app_name_bb
 string appbar_scrolling_view_behavior
+string bb_alert_no_internet_accept
+string bb_alert_no_internet_subtitle
+string bb_alert_no_internet_title
 string bb_back_to_app
 string bb_back_to_app_msg
 string bb_error_email
