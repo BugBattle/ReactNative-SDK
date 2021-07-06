@@ -1,20 +1,16 @@
 package com.reactnativebugbattlesdk;
 
 import android.app.Activity;
-import android.app.Application;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.util.Base64;
 
 import com.facebook.react.ReactApplication;
-import com.facebook.react.bridge.Callback;
-import com.facebook.react.bridge.LifecycleEventListener;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableArray;
-import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 
 import org.json.JSONArray;
@@ -35,7 +31,7 @@ import bugbattle.io.bugbattle.RequestType;
 
 public class BugbattleSdkModule extends ReactContextBaseJavaModule {
     private boolean isSilentBugReport = false;
-
+    private BugBattle instance = null;
     public BugbattleSdkModule(ReactApplicationContext reactContext) {
         super(reactContext);
     }
@@ -54,59 +50,61 @@ public class BugbattleSdkModule extends ReactContextBaseJavaModule {
      */
     @ReactMethod
     public void initializeMany(String sdkKey, ReadableArray activationMethods) {
-        BugBattle.getInstance().registerCustomAction(new CustomActionCallback() {
-            @Override
-            public void invoke(String message) {
-                JSONObject obj = new JSONObject();
-                try {
-                    obj.put("name", message);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+        if(instance == null) {
+            BugBattle.getInstance().registerCustomAction(new CustomActionCallback() {
+                @Override
+                public void invoke(String message) {
+                    JSONObject obj = new JSONObject();
+                    try {
+                        obj.put("name", message);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
 
-                getReactApplicationContext().getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit("customActionTriggered", obj.toString());
-            }
-        });
-        BugBattle.getInstance().setBugWillBeSentCallback(new BugWillBeSentCallback() {
-            @Override
-            public void flowInvoced() {
-                getReactApplicationContext().getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit("bugWillBeSent", null);
-            }
-        });
-        try {
-            BugBattle.getInstance().setApplicationType(APPLICATIONTYPE.REACTNATIVE);
-            List<BugBattleActivationMethod> activationMethodsList = new LinkedList<>();
-            for (Object activationMethod : activationMethods.toArrayList()) {
-                if (activationMethod.equals("SHAKE")) {
-                    activationMethodsList.add(BugBattleActivationMethod.SHAKE);
-                    BugBattle.getInstance().setBugSentCallback(new BugSentCallback() {
-                        @Override
-                        public void close() {
-                            new java.util.Timer().schedule(
-                                    new java.util.TimerTask() {
-                                        @Override
-                                        public void run() {
-                                            if (!isSilentBugReport) {
-                                                showDevMenu();
+                    getReactApplicationContext().getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit("customActionTriggered", obj.toString());
+                }
+            });
+            BugBattle.getInstance().setBugWillBeSentCallback(new BugWillBeSentCallback() {
+                @Override
+                public void flowInvoced() {
+                    getReactApplicationContext().getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit("bugWillBeSent", null);
+                }
+            });
+            try {
+                BugBattle.getInstance().setApplicationType(APPLICATIONTYPE.REACTNATIVE);
+                List<BugBattleActivationMethod> activationMethodsList = new LinkedList<>();
+                for (Object activationMethod : activationMethods.toArrayList()) {
+                    if (activationMethod.equals("SHAKE")) {
+                        activationMethodsList.add(BugBattleActivationMethod.SHAKE);
+                        BugBattle.getInstance().setBugSentCallback(new BugSentCallback() {
+                            @Override
+                            public void close() {
+                                new java.util.Timer().schedule(
+                                        new java.util.TimerTask() {
+                                            @Override
+                                            public void run() {
+                                                if (!isSilentBugReport) {
+                                                    showDevMenu();
+                                                }
+                                                isSilentBugReport = false;
                                             }
-                                            isSilentBugReport = false;
-                                        }
-                                    },
-                                    500
-                            );
-                        }
-                    });
-                } else if (activationMethod.equals("SCREENSHOT")) {
-                    activationMethodsList.add(BugBattleActivationMethod.SCREENSHOT);
+                                        },
+                                        500
+                                );
+                            }
+                        });
+                    } else if (activationMethod.equals("SCREENSHOT")) {
+                        activationMethodsList.add(BugBattleActivationMethod.SCREENSHOT);
+                    }
                 }
-            }
-            Activity activity = getReactApplicationContext().getCurrentActivity();
-            if (activity != null) {
-                BugBattleActivationMethod[] bugBattleActivationMethods = activationMethodsList.toArray(new BugBattleActivationMethod[activationMethodsList.size()]);
-                BugBattle.initWithToken(sdkKey, bugBattleActivationMethods, activity.getApplication(), activity);
-            }
+                Activity activity = getReactApplicationContext().getCurrentActivity();
+                if (activity != null) {
+                    BugBattleActivationMethod[] bugBattleActivationMethods = activationMethodsList.toArray(new BugBattleActivationMethod[activationMethodsList.size()]);
+                    instance = BugBattle.initWithToken(sdkKey, bugBattleActivationMethods, activity.getApplication(), activity);
+                }
 
-        } catch (Exception ex) {
+            } catch (Exception ex) {
+            }
         }
     }
 
@@ -119,6 +117,7 @@ public class BugbattleSdkModule extends ReactContextBaseJavaModule {
      */
     @ReactMethod
     public void initialize(String sdkKey, String activationMethod) {
+        if(instance == null) {
             try {
                 Activity activity = getReactApplicationContext()
                         .getCurrentActivity();
@@ -131,7 +130,7 @@ public class BugbattleSdkModule extends ReactContextBaseJavaModule {
                         }
                     });
                     if (activationMethod.equals("SHAKE")) {
-                        BugBattle.initWithToken(sdkKey, BugBattleActivationMethod.SHAKE, activity.getApplication());
+                        instance = BugBattle.initWithToken(sdkKey, BugBattleActivationMethod.SHAKE, activity.getApplication());
                         BugBattle.getInstance().setBugSentCallback(new BugSentCallback() {
                             @Override
                             public void close() {
@@ -147,13 +146,14 @@ public class BugbattleSdkModule extends ReactContextBaseJavaModule {
                             }
                         });
                     } else if (activationMethod.equals("SCREENSHOT")) {
-                        BugBattle.initWithToken(sdkKey, BugBattleActivationMethod.SCREENSHOT, activity.getApplication());
+                        instance = BugBattle.initWithToken(sdkKey, BugBattleActivationMethod.SCREENSHOT, activity.getApplication());
                     } else {
-                        BugBattle.initWithToken(sdkKey, BugBattleActivationMethod.NONE, activity.getApplication());
+                        instance = BugBattle.initWithToken(sdkKey, BugBattleActivationMethod.NONE, activity.getApplication());
                     }
                 }
             } catch (Exception ex) {
             }
+        }
     }
 
     /**
