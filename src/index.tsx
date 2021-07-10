@@ -38,6 +38,7 @@ type BugbattleSdkType = {
   registerCustomAction(
     customActionCallback: (data: { name: string }) => void
   ): void;
+  logEvent(name: string, data: any): void;
 };
 
 const { BugbattleSdk } = NativeModules;
@@ -121,7 +122,7 @@ if (BugbattleSdk) {
     }
   });
   bugBattleEmitter.addListener('customActionTriggered', (data) => {
-    if(isJsonString(data)) {
+    if (isJsonString(data)) {
       data = JSON.parse(data);
     }
     const { name } = data;
@@ -139,9 +140,9 @@ if (BugbattleSdk) {
 
 function isJsonString(str: string) {
   try {
-      JSON.parse(str);
+    JSON.parse(str);
   } catch (e) {
-      return false;
+    return false;
   }
   return true;
 }

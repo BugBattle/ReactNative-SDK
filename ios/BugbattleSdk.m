@@ -243,4 +243,9 @@ RCT_EXPORT_METHOD(setApiUrl: (NSString *)apiUrl)
     [BugBattle setApiUrl: apiUrl];
 }
 
+RCT_EXPORT_METHOD(logEvent:(NSString *)name andData:(NSDictionary *)data)
+{
+    [BugBattle logEvent: name withData: data];
+}
+
 @end
