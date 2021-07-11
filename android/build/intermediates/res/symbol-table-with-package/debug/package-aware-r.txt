@@ -1287,6 +1287,7 @@ id bb_next
 id bb_overview
 id bb_redbutton
 id bb_success
+id bb_success_img
 id bb_undobutton
 id bb_view3
 id bb_webview

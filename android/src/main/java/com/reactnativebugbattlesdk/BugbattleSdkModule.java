@@ -11,6 +11,8 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableArray;
+import com.facebook.react.bridge.ReadableMap;
+import com.facebook.react.bridge.ReadableMapKeySetIterator;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 
 import org.json.JSONArray;
@@ -32,6 +34,7 @@ import bugbattle.io.bugbattle.RequestType;
 public class BugbattleSdkModule extends ReactContextBaseJavaModule {
     private boolean isSilentBugReport = false;
     private BugBattle instance = null;
+
     public BugbattleSdkModule(ReactApplicationContext reactContext) {
         super(reactContext);
     }
@@ -50,7 +53,7 @@ public class BugbattleSdkModule extends ReactContextBaseJavaModule {
      */
     @ReactMethod
     public void initializeMany(String sdkKey, ReadableArray activationMethods) {
-        if(instance == null) {
+        if (instance == null) {
             BugBattle.getInstance().registerCustomAction(new CustomActionCallback() {
                 @Override
                 public void invoke(String message) {
@@ -117,7 +120,7 @@ public class BugbattleSdkModule extends ReactContextBaseJavaModule {
      */
     @ReactMethod
     public void initialize(String sdkKey, String activationMethod) {
-        if(instance == null) {
+        if (instance == null) {
             try {
                 Activity activity = getReactApplicationContext()
                         .getCurrentActivity();
@@ -315,9 +318,10 @@ public class BugbattleSdkModule extends ReactContextBaseJavaModule {
      * @author BugBattle
      */
     @ReactMethod
-    public void appendCustomData(JSONObject customData) {
+    public void appendCustomData(ReadableMap customData) {
         try {
-            BugBattle.getInstance().appendCustomData(customData);
+            JSONObject jsonObject = convertMapToJson(customData);
+            BugBattle.getInstance().appendCustomData(jsonObject);
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -343,9 +347,10 @@ public class BugbattleSdkModule extends ReactContextBaseJavaModule {
      * @param data Data, which is added
      */
     @ReactMethod
-    public void attachData(JSONObject data) {
+    public void attachData(ReadableMap data) {
         try {
-            BugBattle.getInstance().attachData(data);
+            JSONObject object = convertMapToJson(data);
+            BugBattle.getInstance().attachData(object);
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -433,6 +438,91 @@ public class BugbattleSdkModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void setLogoUrl(String logoUrl) {
         BugBattle.getInstance().setLogoUrl(logoUrl);
+    }
+
+
+    /**
+     * Logs a custom event
+     *
+     * @param name Name of the event
+     * @author BugBattle
+     */
+    @ReactMethod
+    void logEvent(String name) {
+        BugBattle.getInstance().logEvent(name);
+    }
+
+    /**
+     * Logs a custom event with data
+     *
+     * @param name Name of the event
+     * @param data Data passed with the event.
+     * @author BugBattle
+     */
+    @ReactMethod
+    void logEvent(String name, ReadableMap data) {
+        JSONObject jsonObject = null;
+        try {
+            jsonObject = convertMapToJson(data);
+            BugBattle.getInstance().logEvent(name, jsonObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static JSONObject convertMapToJson(ReadableMap readableMap) throws JSONException {
+        JSONObject object = new JSONObject();
+        ReadableMapKeySetIterator iterator = readableMap.keySetIterator();
+        while (iterator.hasNextKey()) {
+            String key = iterator.nextKey();
+            switch (readableMap.getType(key)) {
+                case Null:
+                    object.put(key, JSONObject.NULL);
+                    break;
+                case Boolean:
+                    object.put(key, readableMap.getBoolean(key));
+                    break;
+                case Number:
+                    object.put(key, readableMap.getDouble(key));
+                    break;
+                case String:
+                    object.put(key, readableMap.getString(key));
+                    break;
+                case Map:
+                    object.put(key, convertMapToJson(readableMap.getMap(key)));
+                    break;
+                case Array:
+                    object.put(key, convertArrayToJson(readableMap.getArray(key)));
+                    break;
+            }
+        }
+        return object;
+    }
+
+    private static JSONArray convertArrayToJson(ReadableArray readableArray) throws JSONException {
+        JSONArray array = new JSONArray();
+        for (int i = 0; i < readableArray.size(); i++) {
+            switch (readableArray.getType(i)) {
+                case Null:
+                    break;
+                case Boolean:
+                    array.put(readableArray.getBoolean(i));
+                    break;
+                case Number:
+                    array.put(readableArray.getDouble(i));
+                    break;
+                case String:
+                    array.put(readableArray.getString(i));
+                    break;
+                case Map:
+                    array.put(convertMapToJson(readableArray.getMap(i)));
+                    break;
+                case Array:
+                    array.put(convertArrayToJson(readableArray.getArray(i)));
+                    break;
+            }
+        }
+        return array;
     }
 
 }
