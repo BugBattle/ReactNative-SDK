@@ -1,6 +1,6 @@
 {
   "name": "react-native-bugbattle-sdk",
-  "version": "4.0.5",
+  "version": "4.1.0",
   "description": "In-App Bug Reporting and Testing for Apps. Learn more at https://www.bugbattle.io",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
