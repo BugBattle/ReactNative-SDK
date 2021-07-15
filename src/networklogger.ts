@@ -99,6 +99,89 @@ class BugBattleNetworkIntercepter {
 
         this.cleanRequests();
       },
+      onOpen: (request: any, args: string | any[]) => {
+        if (this.stopped) {
+          return;
+        }
+
+        if (
+          request &&
+          request.bbRequestId &&
+          args.length >= 2 &&
+          this.requests
+        ) {
+          this.requests[request.bbRequestId] = {
+            type: args[0],
+            url: args[1],
+            date: new Date(),
+          };
+        }
+
+        this.cleanRequests();
+      },
+      onSend: (request: any, args: string | any[]) => {
+        if (this.stopped) {
+          return;
+        }
+
+        if (
+          request &&
+          request.bbRequestId &&
+          args.length > 0 &&
+          this.requests &&
+          this.requests[request.bbRequestId]
+        ) {
+          this.requests[request.bbRequestId].request = {
+            payload: args[0],
+            headers: request.requestHeaders,
+          };
+          this.calcRequestTime(request.bbRequestId);
+        }
+
+        this.cleanRequests();
+      },
+      onError: (request: any) => {
+        if (
+          !this.stopped &&
+          this.requests &&
+          request &&
+          request.currentTarget &&
+          request.currentTarget.bbRequestId &&
+          this.requests[request.currentTarget.bbRequestId]
+        ) {
+          var target = request.currentTarget;
+          this.requests[target.bbRequestId].success = false;
+          this.calcRequestTime(request.bbRequestId);
+        }
+
+        this.cleanRequests();
+      },
+      onLoad: (request: any) => {
+        if (this.stopped) {
+          return;
+        }
+
+        if (
+          request &&
+          request.currentTarget &&
+          request.currentTarget.bbRequestId &&
+          this.requests &&
+          this.requests[request.currentTarget.bbRequestId]
+        ) {
+          var target = request.currentTarget;
+          this.requests[target.bbRequestId].success = true;
+          this.requests[target.bbRequestId].response = {
+            status: target.status,
+            statusText: target.statusText,
+            responseText:
+              target.responseType === 'text'
+                ? target.responseText
+                : '<' + target.responseType + '>',
+          };
+        }
+
+        this.cleanRequests();
+      },
     });
   }
 
@@ -106,6 +189,46 @@ class BugBattleNetworkIntercepter {
     // eslint-disable-next-line consistent-this
     var self = this;
 
+    // XMLHttpRequest
+    const open = XMLHttpRequest.prototype.open;
+    const send = XMLHttpRequest.prototype.send;
+    const wrappedSetRequestHeader = XMLHttpRequest.prototype.setRequestHeader;
+
+    XMLHttpRequest.prototype.setRequestHeader = function (header, value) {
+      wrappedSetRequestHeader(header, value);
+
+      var reqSelf = this as any;
+      if (!reqSelf.requestHeaders) {
+        reqSelf.requestHeaders = {};
+      }
+
+      if (!reqSelf.requestHeaders[header]) {
+        reqSelf.requestHeaders[header] = [];
+      }
+
+      reqSelf.requestHeaders[header].push(value);
+    };
+
+    XMLHttpRequest.prototype.open = function () {
+      var reqSelf = this as any;
+      reqSelf.bbRequestId = ++self.requestId;
+      callback.onOpen && callback.onOpen(reqSelf, arguments);
+      if (callback.onLoad) {
+        reqSelf.addEventListener('load', callback.onLoad.bind(callback));
+      }
+      if (callback.onError) {
+        reqSelf.addEventListener('error', callback.onError.bind(callback));
+      }
+      // @ts-ignore
+      return open.apply(reqSelf, arguments);
+    };
+    XMLHttpRequest.prototype.send = function () {
+      callback.onSend && callback.onSend(this, arguments);
+      // @ts-ignore
+      return send.apply(this, arguments);
+    };
+
+    // Fetch
     if (global) {
       (function () {
         var originalFetch = global.fetch;

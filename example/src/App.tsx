@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import BugBattle from 'react-native-bugbattle-sdk';
-
+const axios = require('axios');
 const bugbattleLogo = require('./bugbattleLogo.png');
 
 export default function App() {
   React.useEffect(() => {
-    BugBattle.autoConfigure('PWL8oIKCHnNmaf15QlIXtU5cr4NNGS0O');
+    BugBattle.autoConfigure('J4ADFNfzzCdYWr8NBO4rozcb6NFeyyES');
 
     BugBattle.setCustomData('no', 'asdf');
     BugBattle.setCustomData('email', 'luki@asdf.de');
@@ -28,19 +28,19 @@ export default function App() {
       <TouchableOpacity
         style={styles.buttonContainer}
         onPress={() => {
-          fetch(
-            'https://run.mocky.io/v3/4ce4f0ac-4cbd-4ef7-93fc-5a5726e3a147'
-          ).then((data) => {
-            data.text().then((dataText) => {
-              console.log(dataText);
-
-              BugBattle.sendSilentBugReport(
-                'hello@bugbattle.io',
-                'Awesome bug description.',
-                'LOW'
-              );
+          axios
+            .get('https://run.mocky.io/v3/4ce4f0ac-4cbd-4ef7-93fc-5a5726e3a147')
+            .then(function (response) {
+              // handle success
+              console.log(response);
+            })
+            .catch(function (error) {
+              // handle error
+              console.log(error);
+            })
+            .then(function () {
+              // always executed
             });
-          });
         }}
       >
         <Image
