@@ -27,7 +27,9 @@ export default function App() {
         style={styles.buttonContainer}
         onPress={() => {
           axios
-            .get('https://run.mocky.io/v3/0e875619-73d1-4c96-8778-6ccc63152ca2xxx')
+            .get(
+              'https://run.mocky.io/v3/0e875619-73d1-4c96-8778-6ccc63152ca2xxx'
+            )
             .then(function (response: any) {
               // handle success
               console.log(response.data);
@@ -38,6 +40,7 @@ export default function App() {
             });
 
           function reqListener() {
+            // @ts-ignore
             console.log(this.responseText);
           }
 
