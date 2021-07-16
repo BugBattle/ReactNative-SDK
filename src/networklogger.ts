@@ -135,7 +135,6 @@ class BugBattleNetworkIntercepter {
             payload: args[0],
             headers: request.requestHeaders,
           };
-          this.calcRequestTime(request.bbRequestId);
         }
 
         this.cleanRequests();
@@ -145,12 +144,11 @@ class BugBattleNetworkIntercepter {
           !this.stopped &&
           this.requests &&
           request &&
-          request.currentTarget &&
-          request.currentTarget.bbRequestId &&
-          this.requests[request.currentTarget.bbRequestId]
+          request.bbRequestId &&
+          this.requests[request.bbRequestId]
         ) {
-          var target = request.currentTarget;
-          this.requests[target.bbRequestId].success = false;
+          this.requests[request.bbRequestId].success = false;
+          console.log('CALC???');
           this.calcRequestTime(request.bbRequestId);
         }
 
@@ -163,21 +161,30 @@ class BugBattleNetworkIntercepter {
 
         if (
           request &&
-          request.currentTarget &&
-          request.currentTarget.bbRequestId &&
+          request.bbRequestId &&
           this.requests &&
-          this.requests[request.currentTarget.bbRequestId]
+          this.requests[request.bbRequestId]
         ) {
-          var target = request.currentTarget;
-          this.requests[target.bbRequestId].success = true;
-          this.requests[target.bbRequestId].response = {
-            status: target.status,
-            statusText: target.statusText,
-            responseText:
-              target.responseType === 'text'
-                ? target.responseText
-                : '<' + target.responseType + '>',
+          const contentType = request.getResponseHeader('content-type');
+          const isTextOrJSON =
+            contentType &&
+            (contentType.includes('json') || contentType.includes('text'));
+
+          var responseText = '<' + contentType + '>';
+          if (request.responseType === '' || request.responseType === 'text') {
+            responseText = request.responseText;
+          }
+          if (request._response && isTextOrJSON) {
+            responseText = request._response;
+          }
+
+          this.requests[request.bbRequestId].success = true;
+          this.requests[request.bbRequestId].response = {
+            status: request.status,
+            responseText: responseText,
           };
+
+          this.calcRequestTime(request.bbRequestId);
         }
 
         this.cleanRequests();
@@ -192,36 +199,51 @@ class BugBattleNetworkIntercepter {
     // XMLHttpRequest
     const open = XMLHttpRequest.prototype.open;
     const send = XMLHttpRequest.prototype.send;
-    const wrappedSetRequestHeader = XMLHttpRequest.prototype.setRequestHeader;
 
+    // @ts-ignore
+    XMLHttpRequest.prototype.wrappedSetRequestHeader =
+      XMLHttpRequest.prototype.setRequestHeader;
     XMLHttpRequest.prototype.setRequestHeader = function (header, value) {
-      wrappedSetRequestHeader(header, value);
+      // @ts-ignore
+      this.wrappedSetRequestHeader(header, value);
 
-      var reqSelf = this as any;
-      if (!reqSelf.requestHeaders) {
-        reqSelf.requestHeaders = {};
+      // @ts-ignore
+      if (!this.requestHeaders) {
+        // @ts-ignore
+        this.requestHeaders = {};
       }
 
-      if (!reqSelf.requestHeaders[header]) {
-        reqSelf.requestHeaders[header] = [];
+      // @ts-ignore
+      if (!this.requestHeaders[header]) {
+        // @ts-ignore
+        this.requestHeaders[header] = [];
       }
 
-      reqSelf.requestHeaders[header].push(value);
+      // @ts-ignore
+      this.requestHeaders[header].push(value);
     };
 
     XMLHttpRequest.prototype.open = function () {
-      var reqSelf = this as any;
-      reqSelf.bbRequestId = ++self.requestId;
-      callback.onOpen && callback.onOpen(reqSelf, arguments);
+      (this as any).bbRequestId = ++self.requestId;
+      callback.onOpen && callback.onOpen(this, arguments);
+
       if (callback.onLoad) {
-        reqSelf.addEventListener('load', callback.onLoad.bind(callback));
+        this.addEventListener('load', function () {
+          // @ts-ignore
+          callback.onLoad(this);
+        });
       }
       if (callback.onError) {
-        reqSelf.addEventListener('error', callback.onError.bind(callback));
+        this.addEventListener('error', function () {
+          // @ts-ignore
+          callback.onError(this);
+        });
       }
+
       // @ts-ignore
-      return open.apply(reqSelf, arguments);
+      return open.apply(this, arguments);
     };
+
     XMLHttpRequest.prototype.send = function () {
       callback.onSend && callback.onSend(this, arguments);
       // @ts-ignore

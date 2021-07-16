@@ -113,12 +113,11 @@ if (BugbattleSdk) {
   const bugBattleEmitter = new NativeEventEmitter(BugbattleSdk);
   bugBattleEmitter.addListener('bugWillBeSent', () => {
     // Push the network log to the native SDK.
+    const requests = networkLogger.getRequests();
     if (Platform.OS === 'android') {
-      BugbattleSdk.attachNetworkLog(
-        JSON.stringify(networkLogger.getRequests())
-      );
+      BugbattleSdk.attachNetworkLog(JSON.stringify(requests));
     } else {
-      BugbattleSdk.attachNetworkLog(networkLogger.getRequests());
+      BugbattleSdk.attachNetworkLog(requests);
     }
   });
   bugBattleEmitter.addListener('customActionTriggered', (data) => {

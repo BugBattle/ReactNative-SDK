@@ -6,8 +6,6 @@ const bugbattleLogo = require('./bugbattleLogo.png');
 
 export default function App() {
   React.useEffect(() => {
-    BugBattle.autoConfigure('J4ADFNfzzCdYWr8NBO4rozcb6NFeyyES');
-
     BugBattle.setCustomData('no', 'asdf');
     BugBattle.setCustomData('email', 'luki@asdf.de');
     BugBattle.removeCustomData('no');
@@ -29,18 +27,27 @@ export default function App() {
         style={styles.buttonContainer}
         onPress={() => {
           axios
-            .get('https://run.mocky.io/v3/4ce4f0ac-4cbd-4ef7-93fc-5a5726e3a147')
-            .then(function (response) {
+            .get('https://run.mocky.io/v3/0e875619-73d1-4c96-8778-6ccc63152ca2xxx')
+            .then(function (response: any) {
               // handle success
-              console.log(response);
+              console.log(response.data);
             })
-            .catch(function (error) {
+            .catch(function (error: any) {
               // handle error
               console.log(error);
-            })
-            .then(function () {
-              // always executed
             });
+
+          function reqListener() {
+            console.log(this.responseText);
+          }
+
+          var oReq = new XMLHttpRequest();
+          oReq.addEventListener('load', reqListener);
+          oReq.open(
+            'GET',
+            'https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg'
+          );
+          oReq.send();
         }}
       >
         <Image
