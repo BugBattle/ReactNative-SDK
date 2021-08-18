@@ -188,6 +188,11 @@ RCT_EXPORT_METHOD(setLanguage:(NSString *)language)
     [BugBattle setLanguage: language];
 }
 
+RCT_EXPORT_METHOD(setCustomerName:(NSString *)name)
+{
+    [BugBattle setCustomerName: name];
+}
+
 RCT_EXPORT_METHOD(setCustomerEmail:(NSString *)email)
 {
     [BugBattle setCustomerEmail: email];

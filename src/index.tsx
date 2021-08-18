@@ -17,6 +17,7 @@ type BugbattleSdkType = {
   autoConfigure(token: string): void;
   startBugReporting(): void;
   setCustomerEmail(email: string): void;
+  setCustomerName(name: string): void;
   attachCustomData(customData: any): void;
   setCustomData(key: string, value: string): void;
   removeCustomData(key: string): void;
