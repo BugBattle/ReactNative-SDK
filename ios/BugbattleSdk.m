@@ -183,6 +183,7 @@ RCT_EXPORT_METHOD(setColor:(NSString *)hexColor)
     UIColor * color = [self colorFromHexString: hexColor];
     [BugBattle setColor: color];
 }
+
 RCT_EXPORT_METHOD(setLanguage:(NSString *)language)
 {
     [BugBattle setLanguage: language];
