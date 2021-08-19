@@ -3,6 +3,6 @@ import BugBattle from 'react-native-bugbattle-sdk';
 import App from './src/App';
 import { name as appName } from './app.json';
 
-BugBattle.autoConfigure('J4ADFNfzzCdYWr8NBO4rozcb6NFeyyES');
+BugBattle.autoConfigure('7qnF4SaW8daomwcBLdXAd8ahlIYJtxos');
 
 AppRegistry.registerComponent(appName, () => App);

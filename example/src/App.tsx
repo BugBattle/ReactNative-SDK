@@ -19,6 +19,8 @@ export default function App() {
     BugBattle.registerCustomAction((data) => {
       console.log(data.name);
     });
+    
+    BugBattle.setCustomerName("Niklas")
   }, []);
 
   return (
