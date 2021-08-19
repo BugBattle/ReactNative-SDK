@@ -148,7 +148,6 @@ class BugBattleNetworkIntercepter {
           this.requests[request.bbRequestId]
         ) {
           this.requests[request.bbRequestId].success = false;
-          console.log('CALC???');
           this.calcRequestTime(request.bbRequestId);
         }
 
