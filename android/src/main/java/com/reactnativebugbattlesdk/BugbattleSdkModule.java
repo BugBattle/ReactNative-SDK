@@ -272,16 +272,6 @@ public class BugbattleSdkModule extends ReactContextBaseJavaModule {
     }
 
     /**
-     * Change the color of the appearance of the UI.
-     *
-     * @param color hexcode for color
-     */
-    @ReactMethod
-    public void setColor(String color) {
-        BugBattle.getInstance().setNavigationTint(color);
-    }
-
-    /**
      * Set language of the bugbattle dialog. Available languages are "en", "fr", "de", "it", "nl". You
      * can override in the strings.xml and use your own language. For more informations see:
      * https://developer.android.com/training/basics/supporting-devices/languages
@@ -468,6 +458,23 @@ public class BugbattleSdkModule extends ReactContextBaseJavaModule {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * In order to pre-fill the customer's name,
+     * we recommend using the following method.
+     * This welcomes the user with his name and simplifies the feedback reporting,
+     * *
+     * @param name name of the customer
+     */
+    @ReactMethod
+    void setCustomerName(String name){
+        BugBattle.getInstance().setCustomerName(name);
+    }
+
+    @ReactMethod
+    void setColor(String color){
+        BugBattle.getInstance().setColor(color);
     }
 
     private static JSONObject convertMapToJson(ReadableMap readableMap) throws JSONException {
