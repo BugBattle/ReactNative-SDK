@@ -102,7 +102,8 @@ if (BugbattleSdk) {
 
         BugbattleSdk.initializeMany(token, activationMethods);
       })
-      .catch(() => {
+      .catch((err) => {
+        console.log(err)
         console.warn('Bugbattle: Your SDK key is invalid.');
       });
   };
@@ -113,8 +114,10 @@ if (BugbattleSdk) {
   };
   const bugBattleEmitter = new NativeEventEmitter(BugbattleSdk);
   bugBattleEmitter.addListener('bugWillBeSent', () => {
+    console.log("CALLED LIKE HELL")
     // Push the network log to the native SDK.
     const requests = networkLogger.getRequests();
+    console.log(requests)
     if (Platform.OS === 'android') {
       BugbattleSdk.attachNetworkLog(JSON.stringify(requests));
     } else {

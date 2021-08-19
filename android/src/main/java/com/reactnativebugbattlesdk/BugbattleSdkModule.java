@@ -377,7 +377,10 @@ public class BugbattleSdkModule extends ReactContextBaseJavaModule {
             for (int i = 0; i < object.length(); i++) {
                 JSONObject currentRequest = (JSONObject) object.get(i);
                 JSONObject response = (JSONObject) currentRequest.get("response");
-                JSONObject request = (JSONObject) currentRequest.get("request");
+                JSONObject request = new JSONObject();
+                if(currentRequest.has("request")) {
+                    request = (JSONObject) currentRequest.get("request");
+                }
                 BugBattle.getInstance().logNetwork(currentRequest.getString("url"), RequestType.valueOf(currentRequest.getString("type")), response.getInt("status"), currentRequest.getInt("duration"), request, response);
             }
 
