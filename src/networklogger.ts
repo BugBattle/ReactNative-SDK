@@ -77,15 +77,16 @@ class BugBattleNetworkIntercepter {
         }
 
         req.text().then((responseText: any) => {
-          this.requests[bbRequestId].success = true;
-          this.requests[bbRequestId].response = {
-            status: req.status,
-            statusText: req.statusText,
-            responseText: responseText,
-          };
+          if (this.requests[bbRequestId]) {
+            this.requests[bbRequestId].success = true;
+            this.requests[bbRequestId].response = {
+              status: req.status,
+              statusText: req.statusText,
+              responseText: responseText,
+            };
 
-          this.calcRequestTime(bbRequestId);
-
+            this.calcRequestTime(bbRequestId);
+          }
           this.cleanRequests();
         });
       },
@@ -94,8 +95,10 @@ class BugBattleNetworkIntercepter {
           return;
         }
 
-        this.requests[bbRequestId].success = false;
-        this.calcRequestTime(bbRequestId);
+        if (this.requests[bbRequestId]) {
+          this.requests[bbRequestId].success = false;
+          this.calcRequestTime(bbRequestId);
+        }
 
         this.cleanRequests();
       },
