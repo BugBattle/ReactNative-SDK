@@ -6,16 +6,8 @@ type BugbattleSdkType = {
   SHAKE: 'SHAKE';
   SCREENSHOT: 'SCREENSHOT';
 
-  initialize(
-    key: string,
-    activationMethod: 'NONE' | 'SHAKE' | 'SCREENSHOT'
-  ): void;
-  initializeMany(
-    key: string,
-    activationMethods: ('NONE' | 'SHAKE' | 'SCREENSHOT')[]
-  ): void;
-  autoConfigure(token: string): void;
-  startBugReporting(): void;
+  initialize(key: string): void;
+  startFeedbackFlow(): void;
   setCustomerEmail(email: string): void;
   setCustomerName(name: string): void;
   attachCustomData(customData: any): void;
@@ -25,7 +17,6 @@ type BugbattleSdkType = {
   enablePrivacyPolicy(enable: boolean): void;
   enableReplays(enable: boolean): void;
   sendSilentBugReport(
-    senderEmail: string,
     description: string,
     priority: 'LOW' | 'MEDIUM' | 'HIGH'
   ): void;
@@ -58,7 +49,7 @@ if (BugbattleSdk) {
     networkLogger.setStopped(true);
   };
 
-  BugbattleSdk.autoConfigure = (token: string) => {
+  BugbattleSdk.initialize = (token: string) => {
     fetch(`https://widget.bugbattle.io/appwidget/${token}/config?s=reactnative`)
       .then((response) => response.json())
       .then((config) => {
@@ -103,7 +94,7 @@ if (BugbattleSdk) {
         BugbattleSdk.initializeMany(token, activationMethods);
       })
       .catch((err) => {
-        console.log(err)
+        console.log(err);
         console.warn('Bugbattle: Your SDK key is invalid.');
       });
   };
